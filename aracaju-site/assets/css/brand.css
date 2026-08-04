@@ -78,7 +78,9 @@
 main .mod-scroll__intro__marca {
   position: absolute;
   left: var(--wrapper-padd);
-  bottom: calc(var(--wrapper-padd) * 1.5);
+  /* espaço suficiente para a assinatura não encostar no copyright, que fica
+     preso em bottom: var(--wrapper-padd) no canto esquerdo */
+  bottom: calc(var(--wrapper-padd) * 3.2);
   width: 62%;
   max-width: 46rem;
   pointer-events: none;
@@ -94,10 +96,36 @@ main .mod-scroll__intro__marca img {
   opacity: .92;
 }
 
+/* A assinatura encosta na base do desenho. A margem negativa é em %, que em
+   margin resolve contra a LARGURA do container — e a folga preta embaixo do
+   PNG mede 22,3% dessa largura (39,6% da altura, que é 0,563 da largura).
+   -20% deixa o restinho de respiro entre a roda e o texto. */
+main .mod-scroll__intro__marca__tag {
+  display: block;
+  margin-top: -20%;
+  text-align: center;
+  font-size: 1.15vw;
+  letter-spacing: .38em;
+  text-indent: .38em;
+  line-height: 1.4;
+  opacity: .55;
+}
+
+main .mod-scroll__intro__marca__tag i {
+  font-style: normal;
+  opacity: .5;
+}
+
 @media (max-width: 950px) {
   main .mod-scroll__intro__marca {
     width: 86%;
     bottom: calc(var(--wrapper-padd) * 2.5);
+  }
+
+  main .mod-scroll__intro__marca__tag {
+    font-size: 2.1vw;
+    letter-spacing: .28em;
+    text-indent: .28em;
   }
 }
 
