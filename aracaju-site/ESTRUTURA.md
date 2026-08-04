@@ -264,6 +264,25 @@ As galerias apontavam para `arquivos.boomsistemas.com.br`, então baixei as
 `assets/img/veiculos/<slug>/01.jpg…`. São 9 a 12 por veículo, ~15 MB no total.
 São fotos da própria loja.
 
+### "Home" e o logotipo
+
+Este site tem uma página só, então "Home" é o topo dela — não um destino. O
+tema apontava os três menus para `index.html` e o clique no logotipo chamava
+`swup.navigate('index.html')`: os dois faziam o Swup dar uma visita completa,
+com cortina de transição, conteúdo trocado, preloader de novo, a faixa
+horizontal voltando ao começo e a URL virando `/index.html`. Para quem clicou,
+é cair numa página sem contexto nenhum.
+
+Agora os dois fecham o menu e sobem para o topo. `preventDefault()` sozinho não
+resolvia — o Swup continuava assumindo o clique —, então `index.html` também
+entrou na exceção do `linkSelector` no `main.js`, ao lado de `contacto` e
+`vender`.
+
+**O botão "Menu" em si nunca foi o problema**: no topo da página ele fica
+estacionado fora da tela (`translate3d(0,-180%,0)`, coisa do tema) e só desce
+depois que a faixa horizontal começa a rolar. Quando está visível, o clique
+abre o overlay normalmente.
+
 ### Âncoras
 
 Links `#...` são interceptados pelo `estoque.js`. O motivo é o pin: a faixa

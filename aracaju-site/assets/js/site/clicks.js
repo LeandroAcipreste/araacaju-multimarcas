@@ -191,9 +191,18 @@ window.addEventListener('DOMContentLoaded', ()=>{
         if(!onlyOnce){
              header_logo_normal.addEventListener('click',()=>{
                 if(control) console.log('click header_logo_normal');
-                if(!header_logo_normal.classList.contains('disabled'))
-                    // header_logo_normal.closest('.logo').querySelector('a').click()
-                    swup.navigate(header_logo.getAttribute('data-url'))
+                // O tema fazia swup.navigate('index.html') aqui. Neste site de
+                // página única isso recarrega a própria home: preloader de novo,
+                // faixa horizontal do zero e a URL virando /index.html. O
+                // logotipo agora só volta para o topo, como o "Home" dos menus.
+                if(!header_logo_normal.classList.contains('disabled')){
+                    if(typeof lenis !== 'undefined' && lenis){
+                        lenis.start()
+                        lenis.scrollTo(0,{ duration: 1.4 })
+                    } else {
+                        window.scrollTo({ top: 0, behavior: 'smooth' })
+                    }
+                }
             })
         }
 

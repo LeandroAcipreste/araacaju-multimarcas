@@ -414,6 +414,13 @@
       }
     }
 
+    function fecharMenu() {
+      if (typeof openMenu !== 'undefined' && openMenu) {
+        var btn = document.querySelector('.btn--menu');
+        if (btn) btn.click();
+      }
+    }
+
     // Delegação, e não listener por link: o setLink() do rollovers.js reescreve
     // o innerHTML dos <li> do menu para montar o hover, o que recria os <a> e
     // levaria junto qualquer listener preso neles.
@@ -423,11 +430,28 @@
       var alvo = a.getAttribute('href');
       if (alvo.length < 2 || !document.querySelector(alvo)) return;
       ev.preventDefault();
-      if (typeof openMenu !== 'undefined' && openMenu) {
-        var btn = document.querySelector('.btn--menu');
-        if (btn) btn.click();
-      }
+      fecharMenu();
       rolarAte(document.querySelector(alvo));
+    });
+
+    /*
+     * "Home" é o topo desta página, não outra página. O tema aponta os três
+     * menus para index.html e o Swup transforma isso numa navegação completa:
+     * a home recarrega, o preloader roda de novo, a faixa horizontal volta ao
+     * começo e a URL vira /index.html. Para quem clicou, é cair numa página
+     * sem contexto nenhum. Aqui o clique só fecha o menu e sobe.
+     */
+    document.addEventListener('click', function (ev) {
+      var home = ev.target.closest && ev.target.closest('a[href="index.html"]');
+      if (!home) return;
+      ev.preventDefault();
+      fecharMenu();
+      if (temLenis()) {
+        lenis.start();
+        lenis.scrollTo(0, { duration: 1.4 });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     });
   });
 })();

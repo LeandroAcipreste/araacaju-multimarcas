@@ -565,7 +565,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // "vender" entrou na lista pelo mesmo motivo de "contacto": não é
             // uma página, é o gatilho de um modal. Sem a exceção o Swup tenta
             // navegar para /vender e derruba a home.
-            linkSelector: 'a[href]:not([href="contacto"]):not([href="vender"]):not([href="disponibilidad"]):not([target="_blank"])',
+            //
+            // "index.html" entrou porque este site tem uma página só: o "Home"
+            // dos menus e o logotipo são o topo desta página, não um destino.
+            // O Swup fazia deles uma visita completa — cortina de transição,
+            // conteúdo trocado e a URL virando /index.html — e um preventDefault
+            // no nosso lado não bastava para segurar. Quem leva ao topo agora é
+            // o estoque.js.
+            linkSelector: 'a[href]:not([href="contacto"]):not([href="vender"]):not([href="index.html"]):not([href="disponibilidad"]):not([target="_blank"])',
             animateHistoryBrowsing: true,
             cache: false
         });
