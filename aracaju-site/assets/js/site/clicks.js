@@ -17,8 +17,11 @@ window.addEventListener('DOMContentLoaded', ()=>{
         gsap.set(document.querySelectorAll('.header__menu__nav-single__proyectos__item .line:nth-of-type(2) .num'),{opacity:0})
 
         //split
-        const title_split = SplitText.create(title, {type: "chars, words",charsClass: "char"})
-        const header_media_title_split = SplitText.create(header_media_title, {type: "chars, words",charsClass: "char"})
+        // O menu daqui é só a faixa lateral com os links do site: saíram a foto
+        // em destaque e a lista de veículos que o tema punha no overlay. Sem
+        // estas guardas o SplitText recebe null e derruba o init() inteiro.
+        const title_split = title ? SplitText.create(title, {type: "chars, words",charsClass: "char"}) : null
+        const header_media_title_split = header_media_title ? SplitText.create(header_media_title, {type: "chars, words",charsClass: "char"}) : null
 
         if(control )console.log('btnAnchors',btnAnchors);
         
@@ -56,7 +59,9 @@ window.addEventListener('DOMContentLoaded', ()=>{
         });
 
         ///set animations
-        menu_tl.to('.header__menu__bg', { width: '100vw', duration: 0.75,  ease:"power2.out"},0);
+        // 100% e não 100vw: o fundo agora preenche a faixa lateral, e é a
+        // largura dela que cresce da direita para a esquerda.
+        menu_tl.to('.header__menu__bg', { width: '100%', duration: 0.75,  ease:"power2.out"},0);
         menu_tl.to(btnAnchors, { opacity: '0', duration: 0.4,  ease:"power2.out", 
             onComplete: ()=>{
                 if(control) console.log('chaptersAll onComplete', chaptersAll);
@@ -75,12 +80,15 @@ window.addEventListener('DOMContentLoaded', ()=>{
 
             //anim media
             const init_media = .215;
-            menu_tl.from( header_media.querySelector('.media'),{'--clipPath':'0% 0% 0% 100%', duration: .75, ease: 'power2.out'},init_media)
-            menu_tl.from( header_media.querySelector('.media__wrap-source'),{x:'35%', duration: 1.1, ease: 'power2.out'},init_media)
-            menu_tl.from( header_media_title.querySelectorAll('.char'),{y:'105%', duration: .65, stagger: 0.033, ease: 'power3.out'},init_media+0.35)
+            if(header_media){
+                menu_tl.from( header_media.querySelector('.media'),{'--clipPath':'0% 0% 0% 100%', duration: .75, ease: 'power2.out'},init_media)
+                menu_tl.from( header_media.querySelector('.media__wrap-source'),{x:'35%', duration: 1.1, ease: 'power2.out'},init_media)
+            }
+            if(header_media_title)
+                menu_tl.from( header_media_title.querySelectorAll('.char'),{y:'105%', duration: .65, stagger: 0.033, ease: 'power3.out'},init_media+0.35)
 
-            menu_tl.from(title.querySelectorAll('.char'),{y:'105%', duration: 1, ease: 'power3.out'},.3)
-            menu_tl.from(viewAll,{x:'25%', opacity: 0, duration: 1, ease: 'power3.out'},.7)
+            if(title) menu_tl.from(title.querySelectorAll('.char'),{y:'105%', duration: 1, ease: 'power3.out'},.3)
+            if(viewAll) menu_tl.from(viewAll,{x:'25%', opacity: 0, duration: 1, ease: 'power3.out'},.7)
 
             //anim_projects
             proyectos.forEach( (elem,index) => {
@@ -101,13 +109,13 @@ window.addEventListener('DOMContentLoaded', ()=>{
         }else{
             ///mobile
 
-            menu_tl.from(title.querySelectorAll('.char'),{y:'105%', duration: 1, ease: 'power3.out',onStart:()=>{
+            if(title) menu_tl.from(title.querySelectorAll('.char'),{y:'105%', duration: 1, ease: 'power3.out',onStart:()=>{
                 if(control) console.log('--start menu_tl');
                 // if(control) console.log('modscroll',document.querySelector('.mod-scroll'));
                 // if(control) console.log('header_logo_tl.progress()',header_logo_tl.progress());
                 // if(document.querySelector('.mod-scroll') && header_logo_tl.progress() == 0) header_logo_tl.play()
             }},.45)
-            menu_tl.from(viewAll,{x:'25%', opacity: 0, duration: 1, ease: 'power3.out'},.7)
+            if(viewAll) menu_tl.from(viewAll,{x:'25%', opacity: 0, duration: 1, ease: 'power3.out'},.7)
 
             //anim_projects
             proyectos.forEach( (elem,index) => {
@@ -119,9 +127,12 @@ window.addEventListener('DOMContentLoaded', ()=>{
             } )
 
             //anim media
-            menu_tl.from( header_media.querySelector('.media'),{'--clipPath':'0% 0% 0% 100%', duration: .75, ease: 'power2.out'},1.5)
-            menu_tl.from( header_media.querySelector('.media__wrap-source'),{x:'35%', duration: 1.1, ease: 'power2.out'},1.5)
-            menu_tl.from( header_media_title.querySelectorAll('.char'),{y:'105%', duration: .65, stagger: 0.033, ease: 'power3.out'},1.8)
+            if(header_media){
+                menu_tl.from( header_media.querySelector('.media'),{'--clipPath':'0% 0% 0% 100%', duration: .75, ease: 'power2.out'},1.5)
+                menu_tl.from( header_media.querySelector('.media__wrap-source'),{x:'35%', duration: 1.1, ease: 'power2.out'},1.5)
+            }
+            if(header_media_title)
+                menu_tl.from( header_media_title.querySelectorAll('.char'),{y:'105%', duration: .65, stagger: 0.033, ease: 'power3.out'},1.8)
 
             menu_tl.from(link_footer.querySelectorAll('.char'),{y:'105%', duration: .65, stagger: 0.02, ease: 'power3.out',
                  onReverseComplete:()=>{
@@ -167,6 +178,16 @@ window.addEventListener('DOMContentLoaded', ()=>{
                 openMenu = false; menu_tl.timeScale(2).reverse()
             }
         }
+        // Fechar clicando fora da faixa ou com Esc. O tema não precisava disso
+        // porque o menu ocupava a tela inteira — não havia "fora". Agora a
+        // parte escurecida à esquerda é área de fechar.
+        menu.addEventListener('click',(ev)=>{
+            if(ev.target === menu && openMenu) clickMenu()
+        })
+        document.addEventListener('keydown',(ev)=>{
+            if(ev.key === 'Escape' && openMenu) clickMenu()
+        })
+
         ////
         btnMenu.addEventListener('click',(ev)=>{
             ev.preventDefault();

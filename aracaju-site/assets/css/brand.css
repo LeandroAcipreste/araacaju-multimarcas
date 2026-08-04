@@ -38,6 +38,86 @@
    mix-blend-mode sobre o ponto vermelho. Ali o azul-claro original continua. */
 #mouse span span { color: #C7D7E9; }
 
+/* --- menu: faixa lateral --------------------------------------------------
+   O tema abria o menu como uma página inteira, com foto em destaque e lista
+   de veículos. Aqui é uma faixa estreita encostada na direita, e o que cresce
+   da direita para a esquerda é a própria largura do fundo — o `menu_tl` do
+   clicks.js já animava `.header__menu__bg` de 0 a 100%, só passou a medir a
+   faixa em vez da viewport.
+
+   O bloco continua fixo cobrindo a tela toda, porque é ele que escurece o
+   resto da página; quem tem largura de faixa é o conteúdo. */
+:root { --faixa-menu: min(24rem, 82vw); }
+
+header .header__menu {
+  justify-content: flex-end;
+  padding: 0;
+  background: rgba(0, 0, 0, .55);
+}
+
+header .header__menu__bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: auto;
+  width: 0;
+  max-width: var(--faixa-menu);
+  height: 100%;
+  background: var(--preto-2);
+  border-left: 1px solid rgba(255, 255, 255, .1);
+}
+
+header .header__menu__nav-site,
+header .header__menu__content {
+  position: absolute;
+  right: 0;
+  left: auto;
+  width: var(--faixa-menu);
+  padding: 0 var(--wrapper-padd);
+}
+
+/* Corpo menor e sem quebra de linha: o hover do tema empilha duas cópias do
+   texto, uma em absolute sobre a outra, e uma linha que quebra em duas
+   desalinha as cópias — "FICHA CADASTRAL" saía escrito por cima de si mesmo. */
+header .header__menu__nav-site {
+  top: 28%;
+  bottom: auto;
+  gap: .12em;
+  font-size: var(--titulo);
+  line-height: var(--titulo-lh);
+}
+
+header .header__menu__nav-site li { white-space: nowrap; }
+
+header .header__menu__content {
+  top: auto;
+  bottom: calc(var(--wrapper-padd) * 2);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .85rem;
+}
+
+header .header__menu__contato,
+header .header__menu .header__menu__link-footer {
+  opacity: .7;
+  transition: opacity .25s ease;
+}
+
+header .header__menu__contato:hover,
+header .header__menu .header__menu__link-footer:hover { opacity: 1; }
+
+@media (max-width: 950px) {
+  header .header__menu {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 0;
+  }
+
+  header .header__menu__nav-site { top: 22%; }
+}
+
 /* Único bloco que continua claro: o fecho amarelo. Texto preto nele. */
 .bg-amarelo.c-black,
 .bg-amarelo .c-black { color: #000; }
@@ -920,30 +1000,20 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
   gap: .45em;
 }
 
-/* No overlay do menu quem era posicionado em absolute é o próprio link. Como
-   o ícone precisa ficar fora dele (o setLink duplica o innerHTML), o
-   posicionamento passou para o invólucro e o link volta ao fluxo — senão o
-   ícone ficava sozinho no canto superior e o e-mail, do outro lado da tela. */
-header .header__menu .contato__item {
-  position: absolute;
-  bottom: var(--wrapper-padd);
-  left: calc((99.9vw - var(--wrapper-padd) * 2 - var(--grid-gap) * 11) / 12 * 6 + var(--grid-gap) * 5 + var(--grid-gap) + var(--wrapper-padd));
-}
-
-header .header__menu .contato__item .header__menu__link-footer {
+/* Dentro da faixa, o e-mail é um item da coluna como os outros. O tema o
+   posicionava em absolute atravessado no rodapé da página inteira, e o ícone
+   precisa ficar fora do <a> (o setLink duplica o innerHTML do link), então
+   quem manda no posicionamento é o invólucro. */
+header .header__menu .contato__item,
+header .header__menu .header__menu__link-footer {
   position: relative;
+  top: auto;
+  right: auto;
   bottom: auto;
   left: auto;
 }
 
-@media (max-width: 950px) {
-  header .header__menu .contato__item {
-    position: relative;
-    bottom: auto;
-    left: 0;
-    order: 3;
-  }
-}
+header .header__menu .header__menu__link-footer { overflow: visible; }
 
 .contato__linha {
   display: flex;

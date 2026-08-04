@@ -278,6 +278,27 @@ resolvia — o Swup continuava assumindo o clique —, então `index.html` tamb�
 entrou na exceção do `linkSelector` no `main.js`, ao lado de `contacto` e
 `vender`.
 
+### O menu
+
+É uma **faixa estreita encostada na direita** (`--faixa-menu`, 24rem), com os
+cinco links do site e os contatos embaixo. O resto da página fica escurecido
+atrás e serve de área de fechar; `Esc` também fecha.
+
+O tema abria o menu como uma página inteira, com foto de veículo em destaque e
+lista de modelos. Saiu tudo. O que cresce da direita para a esquerda é a
+largura do próprio fundo: o `menu_tl` do `clicks.js` já animava
+`.header__menu__bg` de 0 a 100%, só passou a medir a faixa em vez da viewport
+(era `100vw`).
+
+Como os blocos removidos eram alvo de `SplitText.create()` e de
+`header_media.querySelector()`, esses trechos do `clicks.js` ganharam guarda —
+com `null` o SplitText estoura e leva junto o `init()`.
+
+Os links do menu não podem quebrar linha (`white-space: nowrap`, corpo em
+`--titulo`): o hover do tema empilha duas cópias do texto, uma em `absolute`
+sobre a outra, e uma linha quebrada desalinha as cópias — "FICHA CADASTRAL"
+saía escrito por cima de si mesmo.
+
 ### O botão "Menu"
 
 No tema, o botão do menu só era revelado por um ScrollTrigger, depois que a
