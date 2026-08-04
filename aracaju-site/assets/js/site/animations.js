@@ -644,6 +644,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     
                 ///footer__project
+                // O rodapé daqui não tem o card de veículo em destaque do tema:
+                // a assinatura é só a silhueta com o wordmark. Sem esta guarda o
+                // SplitText.create recebe null, estoura, e leva junto o resto do
+                // init() — a página abriria travada.
+                if(!elem.querySelector('.mod-footer__content__project__name')) return;
+
                 const split_Title = SplitText.create(elem.querySelector('.mod-footer__content__project__name'), {type: "chars"})
                 const split_Text = SplitText.create(elem.querySelector('.mod-footer__content__project__text'), {type: "lines"})
                 split_Text.lines.forEach(el => {

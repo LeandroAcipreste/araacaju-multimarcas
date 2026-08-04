@@ -254,6 +254,155 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
   color: #E4665B;
 }
 
+/* --- barra de busca do estoque --------------------------------------------
+   Chips de marca em cima, campos embaixo, como no site original. As opções
+   dos campos saem do próprio catálogo (estoque.js): o que não está no estoque
+   não aparece na lista. */
+.filtros {
+  width: 100%;
+  margin-bottom: 2.6rem;
+}
+
+.filtros__marcas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin-bottom: 1.4rem;
+}
+
+.filtros__marca {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 6.5rem;
+  height: 3.4rem;
+  padding: 0 1rem;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: calc(var(--border-radius) * .45);
+  background: var(--preto-2);
+  color: inherit;
+  cursor: pointer;
+  transition: border-color .25s ease, background-color .25s ease;
+}
+
+.filtros__marca__logo {
+  width: auto;
+  max-width: 3.4rem;
+  max-height: 1.7rem;
+  filter: grayscale(1) brightness(1.75);
+  opacity: .8;
+  transition: opacity .25s ease, filter .25s ease;
+}
+
+.filtros__marca:hover { border-color: rgba(255, 255, 255, .38); }
+
+.filtros__marca.is-on {
+  border-color: var(--amarelo);
+  background: rgba(245, 197, 24, .08);
+}
+
+.filtros__marca.is-on .filtros__marca__logo,
+.filtros__marca:hover .filtros__marca__logo {
+  filter: none;
+  opacity: 1;
+}
+
+.filtros__campos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: .8rem;
+}
+
+.filtros__campo {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  flex: 1 1 8rem;
+}
+
+.filtros__campo--largo { flex: 2 1 16rem; }
+
+.filtros__rotulo { opacity: .55; }
+
+/* A seta do <select> some quando trocamos a aparência nativa, então ela volta
+   como imagem de fundo — é o chevron que já vinha do material de origem. */
+.filtros__select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 3rem;
+  padding: 0 2.2rem 0 .9rem;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: calc(var(--border-radius) * .35);
+  background-color: var(--preto-2);
+  background-image: url("../img/ui/chevron.svg");
+  background-repeat: no-repeat;
+  background-position: right .8rem center;
+  background-size: .7rem;
+  color: var(--perola);
+  cursor: pointer;
+  transition: border-color .25s ease;
+}
+
+.filtros__select:hover,
+.filtros__select:focus-visible {
+  border-color: rgba(255, 255, 255, .4);
+  outline: none;
+}
+
+/* A lista aberta é desenhada pelo sistema, não pela página: sem isto o menu
+   sai com fundo branco e texto pérola em cima. */
+.filtros__select option {
+  background: #141414;
+  color: var(--perola);
+}
+
+.filtros__buscar {
+  flex: 0 0 auto;
+  min-width: 10rem;
+  height: 3rem;
+  padding: 0 2rem;
+  border: 0;
+  border-radius: calc(var(--border-radius) * .35);
+  background: var(--amarelo);
+  color: #000;
+  cursor: pointer;
+  transition: filter .25s ease;
+}
+
+.filtros__buscar:hover { filter: brightness(1.12); }
+
+.filtros__limpar {
+  margin-top: 1rem;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  background: none;
+  color: inherit;
+  opacity: .5;
+  cursor: pointer;
+  transition: opacity .25s ease;
+}
+
+.filtros__limpar:hover { opacity: 1; }
+
+.estoque__vazio {
+  width: 100%;
+  max-width: 34rem;
+  opacity: .6;
+}
+
+.estoque__vazio[hidden] { display: none; }
+
+@media (max-width: 560px) {
+  .filtros__campo,
+  .filtros__campo--largo,
+  .filtros__buscar { flex: 1 1 100%; }
+  .filtros__marca { flex: 1 1 auto; min-width: 4.6rem; }
+}
+
 /* --- grade do estoque -----------------------------------------------------
    Entra depois da faixa horizontal, onde a página passa a rolar para baixo. */
 .estoque__intro {
@@ -674,27 +823,42 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
 }
 
 /* --- assinatura do rodapé -------------------------------------------------
-   Substitui o lettering em SVG do tema original (marca de terceiros) por um
-   wordmark tipográfico com as fontes do design-system. O SVG antigo tinha
-   altura própria (1854x1563) e servia de moldura para o card do veículo, que
-   é posicionado em absolute sobre .mod-footer__content — daí o min-height. */
-main .mod-footer__content { min-height: 34vw; }
+   Substitui o lettering em SVG do tema original (marca de terceiros) pela
+   silhueta da marca sobre um wordmark tipográfico, os dois centralizados.
 
-/* Alinhado à esquerda e ao pé do bloco: o card do veículo ocupa a direita,
-   então o wordmark ficaria escondido atrás dele se fosse centralizado. */
+   Saiu daqui o card com a foto de um veículo em destaque, que o tema colocava
+   em absolute à direita — por isso o wordmark era alinhado à esquerda e o
+   bloco tinha min-height: ele servia de moldura para esse card. Sem o card,
+   nada disso precisa continuar. */
+main .mod-footer__content { min-height: 0; }
+
 main .mod-footer__bg.mod-footer__wordmark {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  inset: auto;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  text-align: left;
+  text-align: center;
   line-height: .8;
   letter-spacing: -.02em;
   pointer-events: none;
   user-select: none;
+}
+
+/* Mesmo PNG do hero: traço branco sobre retângulo preto opaco, apagado pelo
+   mix-blend-mode. As margens negativas fecham a folga preta que o arquivo tem
+   em volta do desenho — medida na imagem, sobra 25,9% no topo e 39,6% na base,
+   sobre uma altura que é 0,563 da largura. */
+.mod-footer__marca {
+  display: block;
+  width: 44vw;
+  max-width: 40rem;
+  height: auto;
+  margin: -5vw 0 -8vw;
+  mix-blend-mode: screen;
+  opacity: .92;
 }
 
 .mod-footer__wordmark__top {
@@ -705,17 +869,13 @@ main .mod-footer__bg.mod-footer__wordmark {
 
 .mod-footer__wordmark__bottom {
   display: block;
-  margin-left: .06em;
+  font-family: var(--f-edit-italic);
   font-size: 5.2vw;
-  font-style: italic;
   opacity: .45;
 }
 
-@media (max-width: 950px) {
-  main .mod-footer__content { min-height: 62vw; }
-}
-
 @media (max-width: 767px) {
+  .mod-footer__marca { width: 68vw; margin: -7vw 0 -12vw; }
   .mod-footer__wordmark__top { font-size: 22vw; }
   .mod-footer__wordmark__bottom { font-size: 9vw; }
   .marcas { gap: 6vw; }

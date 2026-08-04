@@ -132,18 +132,83 @@ propósito — o `main.js` assume que todo wrap-input tem um
 Os modais (`#wrap-modals`) não são decorativos: o `root.js` procura
 `.modal--contact` já no carregamento e para de executar se ele não existir.
 
+## De onde vêm os dados
+
+`dados.js` é a única porta de entrada de dados do site. Nada mais sabe se o
+estoque veio de uma API ou do catálogo embutido — o `estoque.js` pede
+`Dados.carregar()` e recebe uma lista já no formato do site.
+
+**Para ligar na API**, tudo acontece no topo do `dados.js`:
+
+1. `CONFIG.url` — o endereço.
+2. `CONFIG.caminhoDaLista` — onde a lista está dentro da resposta, se não
+   estiver na raiz (ex.: `'data.veiculos'`).
+3. `CAMPOS` — os nomes de campo aceitos, em ordem de preferência. Cada linha
+   aceita vários; o primeiro que existir no objeto ganha. Se a API usa um nome
+   que não está lá, é só acrescentar — **é o único lugar do projeto que
+   precisa saber disso**.
+4. `CONFIG.filtraNoServidor` — se a API já filtra, os filtros viram query
+   string em vez de peneira no navegador.
+
+Enquanto `CONFIG.url` estiver vazio o site lê o `<script id="dados-veiculos">`
+do HTML, no mesmo formato de saída. Dá para desenvolver e publicar sem a API
+no ar, e se a API cair em produção o site volta para o catálogo embutido e
+registra o erro no console — uma vitrine desatualizada é melhor que uma
+vitrine em branco.
+
+O `normalizar()` também resolve o caminho inverso: quando os campos vêm soltos
+ele monta a ficha do modal, e quando vem só a ficha pronta ele extrai
+marca/modelo/ano/km de dentro dela — que é o que os filtros precisam.
+
+Formato de saída (o contrato que o resto do site consome):
+
+| campo | tipo | |
+|---|---|---|
+| `slug` | string | identificador do card e do modal |
+| `nome` / `completo` | string | curto para o card, longo para o modal |
+| `preco` / `precoNumero` | string / number | texto formatado e valor para filtrar |
+| `marca` `modelo` `ano` `km` `combustivel` | | usados pela busca |
+| `capa` / `galeria` | string / string[] | foto do card e fotos do modal |
+| `ficha` | [{rotulo, valor}] | a tabela do modal |
+| `resumo` `destaques` `opcionais` | | |
+
+## Busca do estoque
+
+Chips de marca em cima, campos embaixo — marca, modelo, ano de/até, preço
+de/até. **Todas as opções saem do próprio catálogo**: marca que não está no
+estoque não vira chip, ano que ninguém tem não entra na lista. Só os preços
+são faixas redondas de 20 mil em vez de um valor por veículo, porque uma lista
+de preços exatos envelhece a cada carro vendido.
+
+O chip procura o logotipo pelo nome da marca e, se não achar, por pedaço:
+"Caoa Chery" acha `chery.png`, "FIAT AUTOMOVEIS" acha `fiat.png`. Marca sem
+logotipo no projeto vira um chip com o nome escrito — não quebra nada.
+
+Clicar num chip já marcado desmarca. Os campos filtram na hora do `change`; o
+botão Buscar existe para quem prefere confirmar e para o Enter do teclado.
+
 ## Estoque e o modal do veículo
 
 A grade fica logo depois da faixa horizontal — onde a página passa a rolar para
 baixo — em `#veiculos`, com 4 colunas no desktop, 3 em 1200px, 2 em 950px e 1
 em 560px. Cada card abre o modal do veículo, que segue o arranjo da página de
-detalhe do site original: galeria com miniaturas à esquerda; preço, ficha de 8
-campos, "Proposta via WhatsApp" e "Simular financiamento" à direita; embaixo, o
-resumo, os destaques e os opcionais.
+detalhe do site original: galeria com miniaturas à esquerda, e embaixo dela os
+opcionais; preço, ficha, "Proposta via WhatsApp" e "Simular financiamento" à
+direita; depois o resumo e os destaques.
 
-Os dados ficam num `<script id="dados-veiculos" type="application/json">` no
-fim do HTML e o `estoque.js` monta o resto. Para mexer no estoque é esse JSON
-que muda — o HTML dos cards e o modal não guardam informação de veículo.
+**Nenhum card está escrito no `index.html`** — o `estoque.js` desenha a grade
+inteira a partir do que o `dados.js` entregar, e refaz a cada busca. Mexer no
+estoque é mexer na fonte de dados (ver **De onde vêm os dados**), nunca no
+HTML.
+
+Como a grade nasce depois que o tema montou os ScrollTriggers dele, esses cards
+não ganham a entrada animada das outras mídias: aparecem direto, que é o
+comportamento certo para resultado de busca. O `ScrollTrigger.refresh()` depois
+de cada desenho existe só para o pin da faixa horizontal não sair do lugar
+quando a altura da página muda.
+
+Os cliques nos cards são por **delegação na grade**, não por listener em cada
+card: os cards são refeitos a cada filtro e levariam os listeners junto.
 
 A galeria anda por setas, miniaturas e pelas setas do teclado; `Esc` fecha.
 
@@ -208,6 +273,10 @@ código:
 - **`rollovers.js`** — o `colorEnd` do hover dos botões era `'white'`/`'black'`
   fixo no JS. Passou a usar os mesmos tokens, senão o texto sumia dentro da
   mancha de hover.
+- **`animations.js`** — o bloco do rodapé ganhou guarda. Ele fazia
+  `SplitText.create()` no nome e no texto do card de veículo em destaque, que
+  este rodapé não tem; com `null` o SplitText estoura e leva junto o resto do
+  `init()`.
 
 E em `brand.css`:
 
@@ -218,7 +287,12 @@ E em `brand.css`:
   preloader. **Se o nome mudar, este número precisa ser remedido.**
 - `.logo__boring` perdeu o `transform: scale(-1,-1)` — na marca antiga girar a
   palavra era a piada; em "marcas" só deixava o texto de cabeça para baixo.
-- O wordmark do rodapé é tipográfico no lugar do SVG de terceiros.
+- O rodapé é a silhueta da marca sobre um wordmark tipográfico, os dois
+  centralizados, em Editorial New. Saiu de lá o card com um veículo em destaque
+  que o tema colocava em absolute à direita — era por causa dele que o wordmark
+  ficava alinhado à esquerda e o bloco tinha `min-height`. As margens negativas
+  da silhueta fecham a folga preta do PNG: medida na imagem, sobra 25,9% no
+  topo e 39,6% na base, sobre uma altura que é 0,563 da largura.
 - O `width: 80vw` do wrapper do hero passou a valer só acima de 950px. Abaixo
   disso o CSS dimensiona a grade dos títulos a partir de `99.9vw`, e o wrapper
   estreito jogava o conteúdo para fora da tela pela esquerda (o site original

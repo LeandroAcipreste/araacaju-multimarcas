@@ -1,22 +1,42 @@
 /*
- * estoque.js — grade de veículos e o modal com galeria e ficha.
+ * estoque.js — a vitrine: barra de busca, grade de veículos e o modal com
+ * galeria e ficha.
  *
- * Os dados saem do <script id="dados-veiculos"> (gerado a partir das páginas
- * de detalhe do site original). Clicar num card abre o modal; a galeria anda
- * por setas, miniaturas e teclado.
+ * Não sabe de onde vêm os dados. Pede tudo ao dados.js, que decide entre a API
+ * e o catálogo embutido no HTML. Nenhum card fica escrito à mão no index.html:
+ * mexer no estoque é mexer na fonte de dados.
  */
 (function () {
   'use strict';
 
   var WHATSAPP = '5579988197051';
 
-  document.addEventListener('DOMContentLoaded', function () {
-    var fonte = document.querySelector('#dados-veiculos');
-    var modal = document.querySelector('.modal--veiculo');
-    if (!fonte || !modal) return;
+  /* Logotipos das marcas que já estão no projeto. Marca que a API mandar e não
+     estiver aqui vira um chip só com o nome — não quebra nada. */
+  var LOGOS = {
+    'fiat': 'assets/img/marcas/fiat.png',
+    'ford': 'assets/img/marcas/ford.png',
+    'chevrolet': 'assets/img/marcas/chevrolet.png',
+    'toyota': 'assets/img/marcas/toyota.png',
+    'chery': 'assets/img/marcas/chery.png',
+    'land-rover': 'assets/img/marcas/land-rover.png',
+    'renault': 'assets/img/marcas/renault.png'
+  };
 
-    var VEICULOS = {};
-    JSON.parse(fonte.textContent).forEach(function (v) { VEICULOS[v.slug] = v; });
+  document.addEventListener('DOMContentLoaded', function () {
+    var modal = document.querySelector('.modal--veiculo');
+    var grade = document.querySelector('.estoque');
+    if (!modal || !grade || !window.Dados) return;
+
+    var form = document.querySelector('.filtros');
+    var faixaMarcas = document.querySelector('.filtros__marcas');
+    var intro = document.querySelector('.estoque__intro');
+    var vazio = document.querySelector('.estoque__vazio');
+
+    var TODOS = [];        // catálogo inteiro, como veio da fonte
+    var VISIVEIS = [];     // o que está na tela depois dos filtros
+    var PORSLUG = {};
+    var filtros = { marca: '', modelo: '', anoDe: '', anoAte: '', precoDe: '', precoAte: '' };
 
     var conteudo = modal.querySelector('.modal__content');
     var elNome = modal.querySelector('.veiculo__nome');
@@ -36,6 +56,193 @@
     // mas não vira propriedade de window
     function temLenis() { return typeof lenis !== 'undefined' && lenis; }
 
+    function el(tag, classe, texto) {
+      var e = document.createElement(tag);
+      if (classe) e.className = classe;
+      if (texto !== undefined) e.textContent = texto;
+      return e;
+    }
+
+    // ---- grade ------------------------------------------------------------
+
+    function specs(v) {
+      return [
+        v.ano || '',
+        v.combustivel || '',
+        v.km ? v.km.toLocaleString('pt-BR') + ' km' : ''
+      ].filter(Boolean).join(' · ');
+    }
+
+    /* O card mostra o preço sem centavos; o modal mostra o valor cheio. */
+    function precoCurto(v) {
+      if (!v.precoNumero) return v.preco;
+      return 'R$ ' + v.precoNumero.toLocaleString('pt-BR', { maximumFractionDigits: 0 });
+    }
+
+    function card(v, indice) {
+      var art = el('article', 'estoque__item');
+      art.setAttribute('data-veiculo', v.slug);
+
+      var btn = el('button', 'estoque__item__btn');
+      btn.type = 'button';
+
+      var media = el('div', 'media estoque__item__media');
+      media.setAttribute('data-delay', '0');
+      var wrap = el('div', 'media__wrap-source image');
+      wrap.style.aspectRatio = '4 / 3';
+      var img = el('img', 'media__source w-100');
+      img.src = v.capa;
+      img.alt = v.completo;
+      img.loading = 'lazy';
+      wrap.appendChild(img);
+      media.appendChild(wrap);
+
+      var info = el('div', 'estoque__item__info');
+      info.appendChild(el('span', 'estoque__item__num f-izmir t-parrafo', ('0' + (indice + 1)).slice(-2)));
+      info.appendChild(el('h3', 'estoque__item__nome f-regular t-titulo t-upper', v.nome));
+      info.appendChild(el('p', 'estoque__item__specs f-izmir t-parrafo', specs(v)));
+      info.appendChild(el('p', 'estoque__item__preco f-edit t-titulo', precoCurto(v)));
+
+      btn.appendChild(media);
+      btn.appendChild(info);
+      art.appendChild(btn);
+      return art;
+    }
+
+    function desenharGrade() {
+      grade.innerHTML = '';
+      VISIVEIS.forEach(function (v, i) { grade.appendChild(card(v, i)); });
+
+      if (vazio) vazio.hidden = VISIVEIS.length > 0;
+      if (intro) {
+        intro.textContent = VISIVEIS.length === TODOS.length
+          ? TODOS.length + (TODOS.length === 1 ? ' veículo disponível.' : ' veículos disponíveis.') +
+            ' Toque em um carro para ver as fotos e a ficha completa.'
+          : VISIVEIS.length + ' de ' + TODOS.length + ' veículos atendem à sua busca.';
+      }
+
+      /* A grade nasce depois que o tema montou os ScrollTriggers dele, então
+         estes cards não ganham a entrada animada das outras mídias — aparecem
+         direto, que é o comportamento certo para um resultado de busca. O
+         refresh só recalcula as alturas para o pin não sair do lugar. */
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
+    }
+
+    // ---- barra de busca ---------------------------------------------------
+
+    /* O catálogo traz "Caoa Chery", e uma API pode trazer "FIAT AUTOMOVEIS" ou
+       "Chevrolet do Brasil". Casa pelo nome exato e, se não achar, por pedaço —
+       assim o logotipo aparece sem precisar padronizar o cadastro da loja. */
+    function logoDe(marca) {
+      var slug = Dados.slugificar(marca);
+      if (LOGOS[slug]) return LOGOS[slug];
+      var achado = Object.keys(LOGOS).filter(function (k) { return slug.indexOf(k) > -1; })[0];
+      return achado ? LOGOS[achado] : '';
+    }
+
+    function chipMarca(marca) {
+      var logo = logoDe(marca);
+      var b = el('button', 'filtros__marca');
+      b.type = 'button';
+      b.setAttribute('data-marca', marca);
+      b.setAttribute('aria-pressed', 'false');
+      b.title = marca;
+
+      if (logo) {
+        var img = el('img', 'filtros__marca__logo');
+        img.src = logo;
+        img.alt = marca;
+        img.loading = 'lazy';
+        b.appendChild(img);
+      } else {
+        b.appendChild(el('span', 'filtros__marca__nome f-izmir t-parrafo t-upper', marca));
+      }
+      return b;
+    }
+
+    function encherSelect(sel, valores, rotulo, formatar) {
+      if (!sel) return;
+      sel.innerHTML = '';
+      sel.appendChild(new Option(rotulo, ''));
+      valores.forEach(function (v) {
+        sel.appendChild(new Option(formatar ? formatar(v) : v, v));
+      });
+    }
+
+    function montarBusca() {
+      var op = Dados.opcoes(TODOS);
+
+      if (faixaMarcas) {
+        faixaMarcas.innerHTML = '';
+        op.marcas.forEach(function (m) { faixaMarcas.appendChild(chipMarca(m)); });
+      }
+
+      encherSelect(form.querySelector('[name=modelo]'), op.modelos, 'Modelo');
+      encherSelect(form.querySelector('[name=anoDe]'), op.anos, 'Selecione');
+      encherSelect(form.querySelector('[name=anoAte]'), op.anos.slice().reverse(), 'Selecione');
+
+      /* Faixas de preço redondas em vez de um valor por veículo: com o estoque
+         girando, uma lista de preços exatos envelhece a cada carro vendido. */
+      var faixas = degraus(op.precos);
+      encherSelect(form.querySelector('[name=precoDe]'), faixas, 'Selecione', Dados.moeda);
+      encherSelect(form.querySelector('[name=precoAte]'), faixas.slice().reverse(), 'Selecione', Dados.moeda);
+    }
+
+    function degraus(precos) {
+      if (!precos.length) return [];
+      var passo = 20000;
+      var min = Math.floor(precos[0] / passo) * passo;
+      var max = Math.ceil(precos[precos.length - 1] / passo) * passo;
+      var saida = [];
+      for (var p = Math.max(passo, min); p <= max; p += passo) saida.push(p);
+      return saida;
+    }
+
+    function aplicar() {
+      VISIVEIS = Dados.filtrar(TODOS, filtros);
+      desenharGrade();
+    }
+
+    function ligarBusca() {
+      if (!form) return;
+
+      form.addEventListener('submit', function (ev) { ev.preventDefault(); aplicar(); });
+
+      form.addEventListener('change', function (ev) {
+        var campo = ev.target.name;
+        if (campo && campo in filtros) {
+          filtros[campo] = ev.target.value;
+          aplicar();
+        }
+      });
+
+      if (faixaMarcas) {
+        faixaMarcas.addEventListener('click', function (ev) {
+          var b = ev.target.closest('.filtros__marca');
+          if (!b) return;
+          var marca = b.getAttribute('data-marca');
+          filtros.marca = (filtros.marca === marca) ? '' : marca;  // clicar de novo desmarca
+          [].forEach.call(faixaMarcas.children, function (outro) {
+            var on = outro.getAttribute('data-marca') === filtros.marca;
+            outro.classList.toggle('is-on', on);
+            outro.setAttribute('aria-pressed', on ? 'true' : 'false');
+          });
+          aplicar();
+        });
+      }
+
+      var limpar = document.querySelector('.filtros__limpar');
+      if (limpar) limpar.addEventListener('click', function () {
+        Object.keys(filtros).forEach(function (k) { filtros[k] = ''; });
+        form.reset();
+        if (faixaMarcas) [].forEach.call(faixaMarcas.children, function (b) {
+          b.classList.remove('is-on');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        aplicar();
+      });
+    }
+
     // ---- galeria ----------------------------------------------------------
     function mostrarFoto(i) {
       if (!atual || !atual.galeria.length) return;
@@ -53,7 +260,7 @@
     modal.querySelector('.veiculo__seta--ant').addEventListener('click', function () { mostrarFoto(foto - 1); });
     modal.querySelector('.veiculo__seta--prox').addEventListener('click', function () { mostrarFoto(foto + 1); });
 
-    // ---- preenchimento ----------------------------------------------------
+    // ---- preenchimento do modal -------------------------------------------
     function lista(el, itens) {
       el.innerHTML = '';
       itens.forEach(function (t) {
@@ -125,7 +332,7 @@
     }
 
     function abrir(slug) {
-      var v = VEICULOS[slug];
+      var v = PORSLUG[slug];
       if (!v) return;
       preencher(v);
       if (temLenis()) lenis.stop();
@@ -152,11 +359,22 @@
     var simular = modal.querySelector('.veiculo__cta--sec');
     if (simular) simular.addEventListener('click', function () { fechar(); });
 
-    // ---- cards ------------------------------------------------------------
-    document.querySelectorAll('.estoque__item').forEach(function (card) {
-      card.querySelector('.estoque__item__btn').addEventListener('click', function () {
-        abrir(card.getAttribute('data-veiculo'));
-      });
+    /* Delegação: os cards são refeitos a cada busca, então listener preso em
+       cada card morreria no primeiro filtro. */
+    grade.addEventListener('click', function (ev) {
+      var item = ev.target.closest('.estoque__item');
+      if (item) abrir(item.getAttribute('data-veiculo'));
+    });
+
+    // ---- carga ------------------------------------------------------------
+    Dados.carregar().then(function (r) {
+      TODOS = r.veiculos;
+      PORSLUG = {};
+      TODOS.forEach(function (v) { PORSLUG[v.slug] = v; });
+      VISIVEIS = TODOS;
+      montarBusca();
+      ligarBusca();
+      desenharGrade();
     });
 
     // ---- âncoras ----------------------------------------------------------
