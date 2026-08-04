@@ -47,7 +47,7 @@
 
    O bloco continua fixo cobrindo a tela toda, porque é ele que escurece o
    resto da página; quem tem largura de faixa é o conteúdo. */
-:root { --faixa-menu: min(24rem, 82vw); }
+:root { --faixa-menu: 4.4rem; }
 
 header .header__menu {
   justify-content: flex-end;
@@ -63,30 +63,46 @@ header .header__menu__bg {
   width: 0;
   max-width: var(--faixa-menu);
   height: 100%;
-  background: var(--preto-2);
-  border-left: 1px solid rgba(255, 255, 255, .1);
+  background: #000;
 }
 
+/* Mesma receita do menu vertical do hero (.mod-scroll__intro__menu): uma linha
+   de itens girada -90° com origem no canto inferior direito, o que faz o bloco
+   descer pela lateral com o primeiro item embaixo. */
 header .header__menu__nav-site {
   position: absolute;
-  right: 0;
-  left: auto;
-  width: var(--faixa-menu);
-  padding: 0 var(--wrapper-padd);
-}
-
-/* Corpo menor e sem quebra de linha: o hover do tema empilha duas cópias do
-   texto, uma em absolute sobre a outra, e uma linha que quebra em duas
-   desalinha as cópias — "FICHA CADASTRAL" saía escrito por cima de si mesmo. */
-header .header__menu__nav-site {
-  top: 28%;
+  top: calc(var(--wrapper-padd) - 1.15rem);
+  right: var(--wrapper-padd);
   bottom: auto;
-  gap: .12em;
-  font-size: var(--titulo);
-  line-height: var(--titulo-lh);
+  left: auto;
+  width: auto;
+  padding: 0;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 1.2rem;
+  font-size: var(--parrafo);
+  line-height: 1;
+  transform: rotate(-90deg);
+  transform-origin: bottom right;
 }
 
 header .header__menu__nav-site li { white-space: nowrap; }
+
+/* Com o menu aberto o botão é só um X: sem pílula, sem borda, sem a mancha de
+   hover. A classe entra e sai no menu_tl (clicks.js), junto com a troca do
+   texto. O filter: invert(100%) do tema continua valendo, então o X precisa
+   ser preto no CSS para sair branco na tela. */
+header .header__btn.is-x {
+  width: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #000;
+  font-size: var(--titulo);
+  line-height: 1;
+}
+
+header .header__btn.is-x::before { display: none; }
 
 @media (max-width: 950px) {
   header .header__menu {
@@ -95,8 +111,6 @@ header .header__menu__nav-site li { white-space: nowrap; }
     justify-content: flex-end;
     padding: 0;
   }
-
-  header .header__menu__nav-site { top: 22%; }
 }
 
 /* Único bloco que continua claro: o fecho amarelo. Texto preto nele. */

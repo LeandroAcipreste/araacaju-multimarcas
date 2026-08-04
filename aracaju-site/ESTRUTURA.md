@@ -280,9 +280,12 @@ entrou na exceção do `linkSelector` no `main.js`, ao lado de `contacto` e
 
 ### O menu
 
-É uma **faixa estreita encostada na direita** (`--faixa-menu`, 24rem), com os
-cinco links do site e os contatos embaixo. O resto da página fica escurecido
-atrás e serve de área de fechar; `Esc` também fecha.
+É uma **faixa vertical preta encostada na direita** (`--faixa-menu`, 4.4rem),
+só com os cinco links do site, girados -90° — a mesma receita do menu vertical
+do hero (`.mod-scroll__intro__menu`): uma linha de itens com
+`transform: rotate(-90deg)` e origem no canto inferior direito, o que faz o
+bloco descer pela lateral com o primeiro item embaixo. O resto da página fica
+escurecido atrás e serve de área de fechar; `Esc` também fecha.
 
 O tema abria o menu como uma página inteira, com foto de veículo em destaque e
 lista de modelos. Saiu tudo. O que cresce da direita para a esquerda é a
@@ -294,10 +297,10 @@ Como os blocos removidos eram alvo de `SplitText.create()` e de
 `header_media.querySelector()`, esses trechos do `clicks.js` ganharam guarda —
 com `null` o SplitText estoura e leva junto o `init()`.
 
-Os links do menu não podem quebrar linha (`white-space: nowrap`, corpo em
-`--titulo`): o hover do tema empilha duas cópias do texto, uma em `absolute`
-sobre a outra, e uma linha quebrada desalinha as cópias — "FICHA CADASTRAL"
-saía escrito por cima de si mesmo.
+Com o menu aberto o botão vira só um **X**, sem pílula: a classe `is-x` entra e
+sai no `menu_tl`, junto com a troca do texto (que no tema alternava
+"Menú"/"Cerrar", em espanhol). Como o `.header__btn` do tema tem
+`filter: invert(100%)`, o X é declarado preto no CSS para sair branco na tela.
 
 ### O botão "Menu"
 

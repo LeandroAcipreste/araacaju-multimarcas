@@ -32,9 +32,10 @@ window.addEventListener('DOMContentLoaded', ()=>{
                 menu.classList.remove('d-none')
                 menu.style.transform = '';
                 gsap.set(btnMenu, { '--color': 'var(--blue)'});
+                btnMenu.classList.add('is-x')
                 gsap.to(btnMenu.querySelector('span > span'),{y:'120%', duration: 0.33,  ease:"power2.out", 
                     onComplete: ()=>{
-                        btnMenu.querySelector('span > span').innerHTML = 'Cerrar';
+                        btnMenu.querySelector('span > span').innerHTML = '&#10005;';
                         gsap.fromTo(btnMenu.querySelector('span > span'),{y:'-120%'},{y:'0%', duration: 0.33,  ease:"power2.out"})
                     }
                 })
@@ -45,9 +46,10 @@ window.addEventListener('DOMContentLoaded', ()=>{
             onReverseComplete: () => {
                 menu.classList.add('d-none')
                 gsap.set(btnMenu, { '--color': 'var(--beige)'});
+                btnMenu.classList.remove('is-x')
                 gsap.to(btnMenu.querySelector('span > span'),{y:'120%', duration: 0.33,  ease:"power2.out", 
                     onComplete: ()=>{
-                        btnMenu.querySelector('span > span').innerHTML = 'Menú';
+                        btnMenu.querySelector('span > span').innerHTML = 'Menu';
                         gsap.fromTo(btnMenu.querySelector('span > span'),{y:'-120%'},{y:'0%', duration: 0.33,  ease:"power2.out"})
                         
                     }
