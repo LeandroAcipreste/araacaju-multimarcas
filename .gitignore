@@ -1,0 +1,19 @@
+# Só o site entregável (aracaju-site/) é versionado.
+#
+# aracaju-multimarcas/ e design-system/ são snapshots offline de sites de
+# terceiros (matéria-prima e motor visual), com dezenas de MB em .zip e
+# assets duplicados. .claude/ é configuração local do agente.
+/.claude/
+/design-system/
+/aracaju-multimarcas/
+
+# Credenciais/cache do link da CLI da Vercel — nunca vão para o repositório.
+/.vercel/
+
+# Rede de segurança: qualquer coisa nova na raiz também fica de fora,
+# a não ser que seja explicitamente liberada abaixo.
+/*
+!/.gitignore
+!/.vercelignore
+!/vercel.json
+!/aracaju-site/
