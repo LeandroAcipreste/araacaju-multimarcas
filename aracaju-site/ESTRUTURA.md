@@ -187,6 +187,50 @@ logotipo no projeto vira um chip com o nome escrito — não quebra nada.
 Clicar num chip já marcado desmarca. Os campos filtram na hora do `change`; o
 botão Buscar existe para quem prefere confirmar e para o Enter do teclado.
 
+## Venda seu veículo
+
+O cartão "Quer vender seu veículo?" abre um modal com marca, modelo, ano, KM,
+nome do contato, telefone, e-mail e "o veículo é financiado?". Obrigatórios:
+marca, modelo, nome e telefone. Como na ficha cadastral, **não há backend**:
+o `venda.js` monta a mensagem e abre o WhatsApp da loja. O reCAPTCHA da tela
+original ficou de fora pelo mesmo motivo de lá — sem servidor para validar o
+token, seria só enfeite.
+
+O link é `href="vender"`, e por isso ele precisou entrar na exceção do
+`linkSelector` do Swup no `main.js`, ao lado de `contacto`: não é uma página,
+é o gatilho de um modal. Sem a exceção o Swup tenta navegar para `/vender` e
+derruba a home.
+
+Os estilos de campo do tema estão presos a `.modal--contact`, então o
+`brand.css` os repete para `.modal--venda` em vez de pendurar a classe do
+outro modal neste — `root.js` e `clicks.js` pegam `.modal--contact` com
+`querySelector` (singular) e passariam a encontrar o modal errado.
+
+## Ícones
+
+Telefone, e-mail, endereço e Instagram usam traçado do **Lucide** (ISC). A
+biblioteca inteira são 414 KB para quatro desenhos, num site que já carrega
+GSAP, Swiper, Lenis e Swup — então os quatro `<path>` foram copiados do pacote
+para um sprite `<svg>` no topo do `<body>`. Para acrescentar outro ícone:
+`npm pack lucide`, e o `<path>` está em `dist/esm/icons/<nome>.mjs`; copie
+para um novo `<symbol>` com o mesmo viewBox e os mesmos atributos de traço.
+
+O do WhatsApp não é do Lucide, que não tem ícones de marca (o Instagram saiu
+na v1; o daqui veio da 0.544). É a marca própria, a mesma de
+`assets/img/ui/whatsapp.svg`.
+
+Todos herdam `currentColor`, então acompanham a tinta e o hover sem regra
+extra. **Nos links do tema o ícone é irmão do `<a>`, nunca filho**: o
+`setLink()` do `rollovers.js` passa SplitText no link e duplica o `innerHTML`
+para montar o hover — um `<svg>` lá dentro sairia dobrado e picado.
+
+E cuidado com a faixa de links do rodapé: o tema esconde o último `<span>`
+dela (`span:last-of-type { display: none }`), que é o separador `|` sobrando.
+Envolver o e-mail num `<span>` sem devolver esse separador faz o e-mail
+desaparecer.
+
+Os telefones viraram links `tel:` e o e-mail, `mailto:`.
+
 ## Estoque e o modal do veículo
 
 A grade fica logo depois da faixa horizontal — onde a página passa a rolar para
@@ -288,7 +332,8 @@ E em `brand.css`:
 - `.logo__boring` perdeu o `transform: scale(-1,-1)` — na marca antiga girar a
   palavra era a piada; em "marcas" só deixava o texto de cabeça para baixo.
 - O rodapé é a silhueta da marca sobre um wordmark tipográfico, os dois
-  centralizados, em Editorial New. Saiu de lá o card com um veículo em destaque
+  centralizados, em Editorial New, fechando com a assinatura
+  COMPRA · VENDE · TROCA · FINANCIA. Saiu de lá o card com um veículo em destaque
   que o tema colocava em absolute à direita — era por causa dele que o wordmark
   ficava alinhado à esquerda e o bloco tinha `min-height`. As margens negativas
   da silhueta fecham a folga preta do PNG: medida na imagem, sobra 25,9% no

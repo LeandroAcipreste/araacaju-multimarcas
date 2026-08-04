@@ -562,7 +562,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
         swup = new Swup({
             containers: ['#smooth-wrapper','#wrap-modals'],
-            linkSelector: 'a[href]:not([href="contacto"]):not([href="disponibilidad"]):not([target="_blank"])',
+            // "vender" entrou na lista pelo mesmo motivo de "contacto": não é
+            // uma página, é o gatilho de um modal. Sem a exceção o Swup tenta
+            // navegar para /vender e derruba a home.
+            linkSelector: 'a[href]:not([href="contacto"]):not([href="vender"]):not([href="disponibilidad"]):not([target="_blank"])',
             animateHistoryBrowsing: true,
             cache: false
         });

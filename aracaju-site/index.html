@@ -15,6 +15,36 @@
 </head>
 <body>
 
+<!-- Ícones. O traçado de fone, mail, local e instagram é do Lucide (ISC,
+     © Lucide Icons and Contributors), tirado do pacote e embutido aqui: a
+     biblioteca inteira são 414 KB para quatro desenhos, num site que já
+     carrega GSAP, Swiper, Lenis e Swup. Para acrescentar outro ícone, copie
+     o <path> de node_modules/lucide/dist/esm/icons/<nome>.mjs para um novo
+     <symbol> com o mesmo viewBox e os mesmos atributos de traço.
+     O do WhatsApp não é do Lucide, que não tem ícones de marca: é a própria
+     marca, a mesma de assets/img/ui/whatsapp.svg. -->
+<svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
+<symbol id="i-fone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/>
+</symbol>
+<symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/>
+<rect x="2" y="4" width="20" height="16" rx="2"/>
+</symbol>
+<symbol id="i-local" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/>
+<circle cx="12" cy="10" r="3"/>
+</symbol>
+<symbol id="i-instagram" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+<line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+</symbol>
+<symbol id="i-whatsapp" viewBox="0 0 18 18" fill="currentColor">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M14.9692 3.00606C13.3905 1.42548 11.2909 0.554638 9.05408 0.553711C4.44497 0.553711 0.693821 4.30475 0.691967 8.91509C0.691349 10.3889 1.07635 11.8275 1.80814 13.0956L0.621826 17.4287L5.05471 16.2659C6.27615 16.9322 7.65126 17.2833 9.05068 17.2837H9.05418C13.6628 17.2837 17.4143 13.5323 17.4161 8.92179C17.417 6.68738 16.548 4.58655 14.9692 3.00606ZM9.05408 15.8715H9.05119C7.80411 15.871 6.58102 15.5358 5.51377 14.9027L5.26009 14.752L2.62954 15.4421L3.33167 12.8774L3.16636 12.6144C2.47062 11.5078 2.10323 10.2288 2.10385 8.91561C2.10529 5.08361 5.22321 1.966 9.05686 1.966C10.9133 1.96662 12.6584 2.69048 13.9705 4.00421C15.2827 5.31793 16.0049 7.06414 16.0043 8.92127C16.0027 12.7536 12.8849 15.8715 9.05408 15.8715ZM12.8664 10.6661C12.6575 10.5615 11.6302 10.0562 11.4387 9.98636C11.2473 9.91663 11.1078 9.88192 10.9687 10.091C10.8293 10.3001 10.429 10.7708 10.307 10.9101C10.1851 11.0496 10.0633 11.0671 9.85436 10.9625C9.64538 10.8579 8.9722 10.6372 8.17407 9.92539C7.553 9.37137 7.1337 8.68716 7.01175 8.47808C6.89001 8.26879 7.01072 8.16662 7.10342 8.05167C7.3296 7.7708 7.55609 7.47633 7.62572 7.33698C7.69545 7.19752 7.66053 7.07547 7.60821 6.97093C7.55609 6.86638 7.13823 5.83796 6.96417 5.41949C6.79443 5.01224 6.62232 5.06724 6.49399 5.06085C6.37225 5.05477 6.23289 5.05354 6.09354 5.05354C5.95428 5.05354 5.7279 5.10576 5.53632 5.31505C5.34485 5.52423 4.80515 6.02964 4.80515 7.05806C4.80515 8.08648 5.55383 9.07999 5.65827 9.21945C5.76271 9.35891 7.13164 11.4693 9.22753 12.3742C9.72603 12.5897 10.1152 12.7181 10.4187 12.8144C10.9192 12.9735 11.3746 12.951 11.7347 12.8973C12.1362 12.8372 12.9707 12.3918 13.145 11.9038C13.3191 11.4157 13.3191 10.9974 13.2668 10.9101C13.2146 10.823 13.0753 10.7708 12.8664 10.6661Z"/>
+</symbol>
+</svg>
+
 <div class="grid wrapper">
 <div></div><div></div><div></div><div></div><div></div><div></div>
 <div></div><div></div><div></div><div></div><div></div><div></div>
@@ -99,7 +129,7 @@
 </div>
 </nav>
 </div>
-<a class="header__menu__link-footer f-edit t-titulo link" href="mailto:aracajumultimarcas2020@gmail.com">aracajumultimarcas2020@gmail.com</a>
+<span class="contato__item"><svg class="icone" aria-hidden="true"><use href="#i-mail"></use></svg><a class="header__menu__link-footer f-edit t-titulo link" href="mailto:aracajumultimarcas2020@gmail.com">aracajumultimarcas2020@gmail.com</a></span>
 </div>
 <!-- MENU -->
 </header>
@@ -622,7 +652,7 @@ Financiamento, troca e documentação resolvidos por quem atende Aracaju há ano
 
 <section class="mod-content wrapper mod-content--center bg-beige c-black none pb-sm no-anim">
 <div class="mod-content__col">
-<a class="mod-content__btn btn btn--bg btn--bg-xl f-edit t-titulo" href="https://wa.me/5579988197051"><span>Falar no WhatsApp</span></a>
+<a class="mod-content__btn btn btn--bg btn--bg-xl f-edit t-titulo" href="https://wa.me/5579988197051"><span><svg class="icone icone--btn" aria-hidden="true"><use href="#i-whatsapp"></use></svg>Falar no WhatsApp</span></a>
 </div>
 </section>
 
@@ -640,7 +670,7 @@ Financiamento, troca e documentação resolvidos por quem atende Aracaju há ano
 <div class="media mod-media__item mod-media__item--chamada col-6" data-delay="0.2" style="--clipPath: 0% 0% 0% 0%; --transY: 100%;">
 <div class="media__wrap-source image" style="aspect-ratio: 944 / 406">
 <img alt="" class="media__source w-100" src="assets/img/site/venda-seu-carro.jpg"/>
-<a class="chamada" href="https://wa.me/5579988197051?text=Ol%C3%A1!%20Quero%20vender%20meu%20ve%C3%ADculo." target="_blank" rel="noopener">
+<a class="chamada" href="vender">
 <img alt="" class="chamada__icone" height="40" src="assets/img/ui/icon-vender.svg" width="40"/>
 <span class="chamada__titulo f-izmir t-titulo t-upper">Quer vender seu veículo?</span>
 <span class="chamada__texto f-izmir t-parrafo">Fale com a gente e faça sua avaliação.</span>
@@ -665,11 +695,11 @@ Financiamento, troca e documentação resolvidos por quem atende Aracaju há ano
 </div>
 <div class="mod-content__col big_text">
 <div class="mod-content__wrap-text">
-<div class="mod-content__text big_text">
+<div class="mod-content__text big_text f-edit">
 <p>Venha conhecer o estoque pessoalmente ou fale com a gente pelo WhatsApp. Nossa equipe está à disposição para tirar dúvidas, avaliar seu usado na troca e simular o financiamento antes mesmo de você sair de casa.</p>
-<p>Av. Coelho e Campos, 910 — Santo Antônio, Aracaju/SE — CEP 49060-000</p>
-<p>(79) 98819-7051 &nbsp;·&nbsp; (79) 98109-0927</p>
-<p><strong>aracajumultimarcas2020@gmail.com</strong></p>
+<p class="contato__linha"><svg class="icone" aria-hidden="true"><use href="#i-local"></use></svg><span>Av. Coelho e Campos, 910 — Santo Antônio, Aracaju/SE — CEP 49060-000</span></p>
+<p class="contato__linha"><svg class="icone" aria-hidden="true"><use href="#i-fone"></use></svg><span><a href="tel:+5579988197051">(79) 98819-7051</a> &nbsp;·&nbsp; <a href="tel:+5579981090927">(79) 98109-0927</a></span></p>
+<p class="contato__linha"><svg class="icone" aria-hidden="true"><use href="#i-mail"></use></svg><a href="mailto:aracajumultimarcas2020@gmail.com"><strong>aracajumultimarcas2020@gmail.com</strong></a></p>
 </div>
 </div>
 </div>
@@ -690,9 +720,12 @@ Financiamento, troca e documentação resolvidos por quem atende Aracaju há ano
 <!-- RODAPÉ -->
 <section class="mod-footer wrapper bg-beige c-black pt-xs pb-xs">
 <div class="mod-footer__buttons-header">
-<a class="mod-footer__buttons-header__btn f-edit t-titulo-l link" href="https://www.instagram.com/aracajumultimarcas/">INSTAGRAM</a>
+<span class="contato__item"><svg class="icone" aria-hidden="true"><use href="#i-instagram"></use></svg><a class="mod-footer__buttons-header__btn f-edit t-titulo-l link" href="https://www.instagram.com/aracajumultimarcas/">INSTAGRAM</a></span>
 <span class="f-edit t-titulo-l">|</span>
-<a class="mod-footer__buttons-header__btn f-edit t-titulo-l link" href="mailto:aracajumultimarcas2020@gmail.com">aracajumultimarcas2020@gmail.com</a>
+<span class="contato__item"><svg class="icone" aria-hidden="true"><use href="#i-mail"></use></svg><a class="mod-footer__buttons-header__btn f-edit t-titulo-l link" href="mailto:aracajumultimarcas2020@gmail.com">aracajumultimarcas2020@gmail.com</a></span>
+<!-- separador extra de propósito: o tema esconde o último <span> da faixa
+     (`span:last-of-type { display: none }`). Sem ele, o item do e-mail é que
+     sumiria. -->
 <span class="f-edit t-titulo-l">|</span>
 </div>
 <div class="mod-footer__content">
@@ -700,6 +733,7 @@ Financiamento, troca e documentação resolvidos por quem atende Aracaju há ano
 <img alt="" class="mod-footer__marca" src="assets/img/logo/logo-marca.png"/>
 <span class="mod-footer__wordmark__top f-edit">Aracaju</span>
 <span class="mod-footer__wordmark__bottom f-edit">multimarcas</span>
+<span class="mod-footer__wordmark__tag f-izmir t-upper">Compra <i>·</i> Vende <i>·</i> Troca <i>·</i> Financia</span>
 </div>
 </div>
 <div class="mod-footer__footer">
@@ -908,7 +942,59 @@ Financiamento, troca e documentação resolvidos por quem atende Aracaju há ano
 <div class="modal__content__footer ficha__acoes">
 <button class="ficha__voltar f-izmir t-parrafo t-upper" hidden type="button">Voltar</button>
 <button class="ficha__proximo btn btn--bg btn--bg-xl f-edit t-titulo" type="button"><span>Próximo</span></button>
-<button class="ficha__enviar btn btn--bg btn--bg-xl f-edit t-titulo" hidden type="submit"><span>Enviar pelo WhatsApp</span></button>
+<button class="ficha__enviar btn btn--bg btn--bg-xl f-edit t-titulo" hidden type="submit"><span><svg class="icone icone--btn" aria-hidden="true"><use href="#i-whatsapp"></use></svg>Enviar pelo WhatsApp</span></button>
+</div>
+</form>
+</div>
+</div>
+
+<!-- modal: venda seu veículo -->
+<div class="modal modal--venda d-none" data-lenis-prevent="true">
+<div class="modal__bg"></div>
+<div class="modal__content bg-white">
+<a class="modal__close close"><span></span><span></span> </a>
+<div class="modal__content__pretitle f-edit t-parrafo-l">(VENDA SEU VEÍCULO)</div>
+<div class="modal__content__title t-upper f-regular t-titulo-xl t-center">Avalie seu <br/>usado</div>
+<form class="modal__form venda" id="form-venda" novalidate>
+<div class="modal__content__form venda__campos">
+<div class="modal__content__form__wrap-input">
+<label class="modal__content__form__label t-upper" for="v-marca">Marca</label>
+<input class="modal__content__form__input" id="v-marca" name="marca" required type="text"/>
+</div>
+<div class="modal__content__form__wrap-input">
+<label class="modal__content__form__label t-upper" for="v-modelo">Modelo</label>
+<input class="modal__content__form__input" id="v-modelo" name="modelo" required type="text"/>
+</div>
+<div class="modal__content__form__wrap-input">
+<label class="modal__content__form__label t-upper" for="v-ano">Ano</label>
+<input class="modal__content__form__input" id="v-ano" inputmode="numeric" name="ano" type="text"/>
+</div>
+<div class="modal__content__form__wrap-input">
+<label class="modal__content__form__label t-upper" for="v-km">KM</label>
+<input class="modal__content__form__input" id="v-km" inputmode="numeric" name="km" type="text"/>
+</div>
+<div class="modal__content__form__wrap-input venda__campo--largo">
+<label class="modal__content__form__label t-upper" for="v-nome">Nome do contato</label>
+<input class="modal__content__form__input" id="v-nome" name="nome" required type="text"/>
+</div>
+<div class="modal__content__form__wrap-input">
+<label class="modal__content__form__label t-upper" for="v-telefone">Telefone</label>
+<input class="modal__content__form__input" id="v-telefone" inputmode="tel" name="telefone" required type="text"/>
+</div>
+<div class="modal__content__form__wrap-input">
+<label class="modal__content__form__label t-upper" for="v-email">E-mail</label>
+<input class="modal__content__form__input" id="v-email" name="email" type="text"/>
+</div>
+</div>
+<div class="ficha__escolha">
+<span class="ficha__escolha__rotulo t-upper">O veículo é financiado?</span>
+<div class="ficha__escolha__opcoes">
+<label class="ficha__opcao"><input name="financiado" type="radio" value="Sim"/><span>Sim</span></label>
+<label class="ficha__opcao"><input name="financiado" type="radio" value="Não"/><span>Não</span></label>
+</div>
+</div>
+<div class="ficha__acoes">
+<button class="btn btn--bg btn--bg-xl f-edit t-titulo" type="submit"><span><svg class="icone icone--btn" aria-hidden="true"><use href="#i-whatsapp"></use></svg>Enviar pelo WhatsApp</span></button>
 </div>
 </form>
 </div>
@@ -938,7 +1024,7 @@ Financiamento, troca e documentação resolvidos por quem atende Aracaju há ano
 <p class="veiculo__preco f-edit t-titulo-l"></p>
 <dl class="veiculo__ficha"></dl>
 <div class="veiculo__acoes">
-<a class="veiculo__cta btn btn--bg btn--bg-xl f-edit t-titulo" href="#" target="_blank" rel="noopener"><span>Proposta via WhatsApp</span></a>
+<a class="veiculo__cta btn btn--bg btn--bg-xl f-edit t-titulo" href="#" target="_blank" rel="noopener"><span><svg class="icone icone--btn" aria-hidden="true"><use href="#i-whatsapp"></use></svg>Proposta via WhatsApp</span></a>
 <a class="veiculo__cta veiculo__cta--sec f-izmir t-parrafo t-upper" href="contacto">Simular financiamento</a>
 </div>
 <p class="veiculo__resumo f-izmir t-parrafo"></p>
@@ -970,6 +1056,7 @@ Financiamento, troca e documentação resolvidos por quem atende Aracaju há ano
 <script src="assets/js/vendor/lazyload.min.js"></script>
 <script id="dados-veiculos" type="application/json">[{"slug":"punto-sporting","nome":"Punto Sporting","completo":"Punto Sporting Dualogic 1.8 Flex","preco":"R$ 43.000,00","ficha":[{"icone":"ano","rotulo":"Ano","valor":"2014"},{"icone":"km","rotulo":"Quilometragem","valor":"175.000 km"},{"icone":"marca","rotulo":"Marca","valor":"Fiat"},{"icone":"cambio","rotulo":"Câmbio","valor":"Dualogic"},{"icone":"combustivel","rotulo":"Combustível","valor":"Flex"},{"icone":"portas","rotulo":"Portas","valor":"4 Portas"},{"icone":"modelo","rotulo":"Modelo","valor":"Punto"},{"icone":"cor","rotulo":"Cor","valor":"Prata"}],"galeria":["assets/img/veiculos/punto-sporting/01.jpg","assets/img/veiculos/punto-sporting/02.jpg","assets/img/veiculos/punto-sporting/03.jpg","assets/img/veiculos/punto-sporting/04.jpg","assets/img/veiculos/punto-sporting/05.jpg","assets/img/veiculos/punto-sporting/06.jpg","assets/img/veiculos/punto-sporting/07.jpg","assets/img/veiculos/punto-sporting/08.jpg","assets/img/veiculos/punto-sporting/09.jpg","assets/img/veiculos/punto-sporting/10.jpg","assets/img/veiculos/punto-sporting/11.jpg","assets/img/veiculos/punto-sporting/12.jpg"],"resumo":"Hatch esportivo, completo e muito confortável, ideal para quem busca desempenho, tecnologia e excelente dirigibilidade.","destaques":["Motor 1.8 Flex","Câmbio Dualogic","Direção elétrica","Ar-condicionado","Central multimídia","Câmera de ré","Rodas de liga leve","Computador de bordo","Vidros elétricos","Travas elétricas","Retrovisores elétricos","Faróis de neblina","Banco do motorista com regulagem de altura","Design exclusivo da versão Sporting","Veículo revisado, com garantia e procedência.","Aceitamos trocas e financiamos."],"opcionais":["Airbag motorista","Airbag passageiro","Ar Condicionado","Banco do Motorista com regulagem de altura","Banco traseiro bipartido","Banco traseiro rebatível","Câmera de Ré","Chave Reserva","Computador de Bordo","Direção Hidráulica","Farol de Milha","IPVA pago","Kit Multimídia","Limpador Traseiro","Manual do proprietário","Paddle Shift","Parachoque na Cor","Piloto Automático","Rádio com Bluetooth","Rádio com entrada USB","Regulagem de Volante","Rodas de liga leve","Travas Elétricas","Vidros elétricos"]},{"slug":"tiggo-2-act","nome":"Tiggo 2 ACT","completo":"Tiggo 2 ACT 1.5 16V Flex Aut.","preco":"R$ 62.999,00","ficha":[{"icone":"ano","rotulo":"Ano","valor":"2019"},{"icone":"km","rotulo":"Quilometragem","valor":"67.500 km"},{"icone":"marca","rotulo":"Marca","valor":"Caoa Chery"},{"icone":"cambio","rotulo":"Câmbio","valor":"Automático"},{"icone":"combustivel","rotulo":"Combustível","valor":"Flex"},{"icone":"portas","rotulo":"Portas","valor":"4 Portas"},{"icone":"modelo","rotulo":"Modelo","valor":"Tiggo"},{"icone":"cor","rotulo":"Cor","valor":"Branca"}],"galeria":["assets/img/veiculos/tiggo-2-act/01.jpg","assets/img/veiculos/tiggo-2-act/02.jpg","assets/img/veiculos/tiggo-2-act/03.jpg","assets/img/veiculos/tiggo-2-act/04.jpg","assets/img/veiculos/tiggo-2-act/05.jpg","assets/img/veiculos/tiggo-2-act/06.jpg","assets/img/veiculos/tiggo-2-act/07.jpg","assets/img/veiculos/tiggo-2-act/08.jpg","assets/img/veiculos/tiggo-2-act/09.jpg"],"resumo":"SUV compacto com excelente custo-benefício, conforto e ótima lista de equipamentos.","destaques":["Motor 1.5 Flex","Câmbio automático","Teto solar","Direção elétrica","Ar-condicionado","Vidros elétricos","Travas elétricas","Central multimídia","Rodas de liga leve","Excelente espaço interno","Aceitamos trocas e financiamos."],"opcionais":["Airbag motorista","Airbag passageiro","Ar Condicionado","Banco do Motorista com regulagem de altura","Bancos de Couro","Câmera de Ré","Chave Reserva","Computador de Bordo","Controle de som no volante","Desembaçador Traseiro","Direção Elétrica","Farol de Milha","Freios ABS","IPVA pago","Kit Multimídia","Limpador Traseiro","Manual do proprietário","Rack","Rádio AM/FM","Rádio com Bluetooth","Rádio com entrada USB","Retrovisores elétricos","Rodas de liga leve","Sensor de estacionamento","Teto Solar","Vidros elétricos"]},{"slug":"range-evoque","nome":"R. Evoque","completo":"Range R. Evoque Dynamic 2.0 Aut.","preco":"R$ 100.000,00","ficha":[{"icone":"ano","rotulo":"Ano","valor":"2013"},{"icone":"km","rotulo":"Quilometragem","valor":"91.000 km"},{"icone":"marca","rotulo":"Marca","valor":"Land Rover"},{"icone":"cambio","rotulo":"Câmbio","valor":"Automático"},{"icone":"combustivel","rotulo":"Combustível","valor":"Gasolina"},{"icone":"portas","rotulo":"Portas","valor":"4 Portas"},{"icone":"modelo","rotulo":"Modelo","valor":"Range"},{"icone":"cor","rotulo":"Cor","valor":"Branca"}],"galeria":["assets/img/veiculos/range-evoque/01.jpg","assets/img/veiculos/range-evoque/02.jpg","assets/img/veiculos/range-evoque/03.jpg","assets/img/veiculos/range-evoque/04.jpg","assets/img/veiculos/range-evoque/05.jpg","assets/img/veiculos/range-evoque/06.jpg","assets/img/veiculos/range-evoque/07.jpg","assets/img/veiculos/range-evoque/08.jpg","assets/img/veiculos/range-evoque/09.jpg"],"resumo":"SUV premium que combina sofisticação, desempenho e tecnologia, oferecendo conforto e excelente dirigibilidade.","destaques":["Motor 2.0 Turbo Gasolina","Câmbio automático","Tração 4x4","Bancos em couro","Teto panorâmico","Ar-condicionado digital de duas zonas","Central multimídia","Câmera de ré","Sensores de estacionamento","Piloto automático","Direção elétrica","Vidros elétricos","Travas elétricas","Retrovisores elétricos","Rodas de liga leve","Computador de bordo","Veículo revisado, com garantia e procedência.","Aceitamos trocas e financiamos."],"opcionais":["Airbag motorista","Airbag passageiro","Ar Condicionado Digital","Banco do Motorista com regulagem de altura","Banco do motorista elétrico","Banco traseiro rebatível","Bancos de Couro","Botão Start/Stop","Câmera de Ré","Chave de Presença","Chave Reserva","Computador de Bordo","Controle de estabilidade","Controle de som no volante","Destravamento remoto do porta malas","Direção Elétrica","Encosto cab. traseiro","Farol de Milha","Freios ABS","Isofix","Limpador Traseiro","Paddle Shift","Piloto Automático","Porta copos","Rádio AM/FM","Rádio com entrada USB","Rebatimento elétrico dos retrovisores","Regulagem de Volante","Retrovisores elétricos","Rodas de liga leve","Sensor de chuva","Sensor de estacionamento","Teto Solar Panorâmico","Tração 4x4","Travas Elétricas","Turbo","Vidros elétricos","Volante multifuncional"]},{"slug":"fiesta-sel","nome":"Fiesta SEL","completo":"Fiesta SEL 1.6 16V Flex Mec. 5p","preco":"R$ 53.000,00","ficha":[{"icone":"ano","rotulo":"Ano","valor":"2017"},{"icone":"km","rotulo":"Quilometragem","valor":"132.748 km"},{"icone":"marca","rotulo":"Marca","valor":"Ford"},{"icone":"combustivel","rotulo":"Combustível","valor":"Flex"},{"icone":"portas","rotulo":"Portas","valor":"4 Portas"},{"icone":"modelo","rotulo":"Modelo","valor":"Fiesta"},{"icone":"cor","rotulo":"Cor","valor":"Branca"}],"galeria":["assets/img/veiculos/fiesta-sel/01.jpg","assets/img/veiculos/fiesta-sel/02.jpg","assets/img/veiculos/fiesta-sel/03.jpg","assets/img/veiculos/fiesta-sel/04.jpg","assets/img/veiculos/fiesta-sel/05.jpg","assets/img/veiculos/fiesta-sel/06.jpg","assets/img/veiculos/fiesta-sel/07.jpg","assets/img/veiculos/fiesta-sel/08.jpg","assets/img/veiculos/fiesta-sel/09.jpg"],"resumo":"Hatch completo, moderno e confortável, ideal para quem busca desempenho, segurança e excelente dirigibilidade.","destaques":["Motor 1.6 Flex","Câmbio manual","Direção elétrica","Ar-condicionado","Central multimídia SYNC","Comandos de voz","Bluetooth e USB","Vidros elétricos","Travas elétricas","Retrovisores elétricos","Rodas de liga leve","Computador de bordo","Piloto automático","Volante multifuncional","Veículo revisado, com garantia e procedência.","Aceitamos trocas e financiamos."],"opcionais":["Airbag motorista","Airbag passageiro","Alarme","Ar Condicionado","Banco do Motorista com regulagem de altura","Banco traseiro bipartido","Banco traseiro rebatível","Chave Reserva","Computador de Bordo","Controle de som no volante","Destravamento remoto do porta malas","Direção Elétrica","Encosto cab. traseiro","Farol de Milha","Limpador Traseiro","Manual do proprietário","Parachoque na Cor","Rádio AM/FM","Rádio com Bluetooth","Rádio com entrada USB","Regulagem de Volante","Retrovisores elétricos","Rodas de liga leve","Sensor de estacionamento","Travas Elétricas","Vidros elétricos"]},{"slug":"hilux-srx","nome":"Hilux SRX","completo":"Hilux CD SRX 4x4 2.8 TDI 16V Diesel Aut.","preco":"R$ 178.000,00","ficha":[{"icone":"ano","rotulo":"Ano","valor":"2017"},{"icone":"km","rotulo":"Quilometragem","valor":"179.000 km"},{"icone":"marca","rotulo":"Marca","valor":"Toyota"},{"icone":"cambio","rotulo":"Câmbio","valor":"Automático"},{"icone":"combustivel","rotulo":"Combustível","valor":"Diesel"},{"icone":"portas","rotulo":"Portas","valor":"4 Portas"},{"icone":"modelo","rotulo":"Modelo","valor":"Hilux"},{"icone":"cor","rotulo":"Cor","valor":"Branca"}],"galeria":["assets/img/veiculos/hilux-srx/01.jpg","assets/img/veiculos/hilux-srx/02.jpg","assets/img/veiculos/hilux-srx/03.jpg","assets/img/veiculos/hilux-srx/04.jpg","assets/img/veiculos/hilux-srx/05.jpg","assets/img/veiculos/hilux-srx/06.jpg","assets/img/veiculos/hilux-srx/07.jpg","assets/img/veiculos/hilux-srx/08.jpg","assets/img/veiculos/hilux-srx/09.jpg"],"resumo":"Picape topo de linha, robusta, confortável e preparada para qualquer desafio, unindo desempenho, tecnologia e confiabilidade.","destaques":["Motor 2.8 Turbo Diesel","Tração 4x4","Câmbio automático","Bancos em couro","Ar-condicionado digital automático","Central multimídia","Câmera de ré","Sensores de estacionamento","Piloto automático","Controle de estabilidade e tração","Assistente de partida em rampa","Direção hidráulica","Vidros elétricos","Travas elétricas","Retrovisores elétricos","Rodas de liga leve","Computador de bordo","Veículo revisado, com garantia e procedência.","Aceitamos trocas e financiamos."],"opcionais":["Airbag motorista","Airbag passageiro","Alarme","Ar Condicionado Digital","Assistente partida em rampa","Banco do Motorista com regulagem de altura","Banco do motorista elétrico","Bancos de Couro","Botão Start/Stop","Câmera de Ré","Capota marítima","Chave de Presença","Computador de Bordo","Direção Elétrica","Encosto cab. traseiro","Farol de Milha","Freios ABS","Kit Multimídia","Limitador de velocidade","Painel Digital","Parachoque na Cor","Piloto Automático","Protetor de caçamba","Rack","Rádio AM/FM","Rádio com Bluetooth","Rádio com entrada USB","Regulagem de Volante","Retrovisores elétricos","Rodas de liga leve","Sensor de chuva","Tração 4x4","Trava central portas","Travas Elétricas","Turbo","Vidros elétricos"]},{"slug":"ecosport-se","nome":"EcoSport SE","completo":"EcoSport SE Direct 1.5 Flex 5p","preco":"R$ 67.000,00","ficha":[{"icone":"ano","rotulo":"Ano","valor":"2019"},{"icone":"km","rotulo":"Quilometragem","valor":"86.700 km"},{"icone":"marca","rotulo":"Marca","valor":"Ford"},{"icone":"cambio","rotulo":"Câmbio","valor":"Automático"},{"icone":"combustivel","rotulo":"Combustível","valor":"Flex"},{"icone":"portas","rotulo":"Portas","valor":"4 Portas"},{"icone":"modelo","rotulo":"Modelo","valor":"EcoSport"},{"icone":"cor","rotulo":"Cor","valor":"Branca"}],"galeria":["assets/img/veiculos/ecosport-se/01.jpg","assets/img/veiculos/ecosport-se/02.jpg","assets/img/veiculos/ecosport-se/03.jpg","assets/img/veiculos/ecosport-se/04.jpg","assets/img/veiculos/ecosport-se/05.jpg","assets/img/veiculos/ecosport-se/06.jpg","assets/img/veiculos/ecosport-se/07.jpg","assets/img/veiculos/ecosport-se/08.jpg","assets/img/veiculos/ecosport-se/09.jpg","assets/img/veiculos/ecosport-se/10.jpg"],"resumo":"SUV confortável, econômico e ideal para quem busca segurança, espaço interno e excelente custo-benefício.","destaques":["Motor 1.5 Flex","Câmbio automático","Som original com Bluetooth e USB","Sensor de estacionamento","Ar-condicionado","Direção elétrica","Vidros elétricos","Travas elétricas","Retrovisores elétricos","Computador de bordo","Excelente espaço interno","Veículo revisado, com garantia e procedência.","Aceitamos trocas e financiamos."],"opcionais":["Airbag motorista","Ar Condicionado Digital","Assistente partida em rampa","Banco do Motorista com regulagem de altura","Chave Reserva","Computador de Bordo","Controle de som no volante","Direção Elétrica","Encosto cab. traseiro","Farol de Milha","Freios ABS","IPVA pago","Limpador Traseiro","Manual do proprietário","Parachoque na Cor","Rádio AM/FM","Rádio com Bluetooth","Rádio com entrada USB","Retrovisores elétricos","Sensor de estacionamento","Trava central portas","Travas Elétricas","Vidros elétricos","Volante multifuncional"]},{"slug":"ecosport-freestyle","nome":"EcoSport FS","completo":"EcoSport Freestyle 2.0 16V Flex","preco":"R$ 55.000,00","ficha":[{"icone":"ano","rotulo":"Ano","valor":"2015"},{"icone":"km","rotulo":"Quilometragem","valor":"98.417 km"},{"icone":"marca","rotulo":"Marca","valor":"Ford"},{"icone":"combustivel","rotulo":"Combustível","valor":"Flex"},{"icone":"portas","rotulo":"Portas","valor":"4 Portas"},{"icone":"modelo","rotulo":"Modelo","valor":"EcoSport"},{"icone":"cor","rotulo":"Cor","valor":"Branca"}],"galeria":["assets/img/veiculos/ecosport-freestyle/01.jpg","assets/img/veiculos/ecosport-freestyle/02.jpg","assets/img/veiculos/ecosport-freestyle/03.jpg","assets/img/veiculos/ecosport-freestyle/04.jpg","assets/img/veiculos/ecosport-freestyle/05.jpg","assets/img/veiculos/ecosport-freestyle/06.jpg","assets/img/veiculos/ecosport-freestyle/07.jpg","assets/img/veiculos/ecosport-freestyle/08.jpg","assets/img/veiculos/ecosport-freestyle/09.jpg","assets/img/veiculos/ecosport-freestyle/10.jpg","assets/img/veiculos/ecosport-freestyle/11.jpg"],"resumo":"SUV completo, confortável e versátil, ideal para quem busca desempenho, espaço interno e excelente dirigibilidade.","destaques":["Motor 2.0 Flex","Câmbio automático","Direção elétrica","Bancos em couro","Ar-condicionado","Sistema Ford SYNC com Bluetooth e comandos de voz","Vidros elétricos","Travas elétricas","Retrovisores elétricos","Rodas de liga leve","Computador de bordo","Volante multifuncional","Banco do motorista com regulagem de altura","Veículo revisado, com garantia e procedência.","Aceitamos trocas e financiamos."],"opcionais":["Airbag motorista","Airbag passageiro","Alarme","Ar Condicionado","Ar Quente","Banco do Motorista com regulagem de altura","Banco traseiro bipartido","Banco traseiro rebatível","Bancos de Couro","Computador de Bordo","Controle de som no volante","Direção Elétrica","Encosto cab. traseiro","Farol de Milha","Freios ABS","Limpador Traseiro","Rack","Rádio AM/FM","Rádio com Bluetooth","Rádio com entrada USB","Regulagem de Volante","Retrovisores elétricos","Rodas de liga leve","Sensor de estacionamento","Trava central portas","Travas Elétricas","Vidros elétricos"]},{"slug":"onix-lt","nome":"Onix LT","completo":"Onix Hatch LT 1.0 12V Flex 5p","preco":"R$ 73.000,00","ficha":[{"icone":"ano","rotulo":"Ano","valor":"2025"},{"icone":"km","rotulo":"Quilometragem","valor":"55.953 km"},{"icone":"marca","rotulo":"Marca","valor":"Chevrolet"},{"icone":"cambio","rotulo":"Câmbio","valor":"Manual"},{"icone":"combustivel","rotulo":"Combustível","valor":"Flex"},{"icone":"portas","rotulo":"Portas","valor":"4 Portas"},{"icone":"modelo","rotulo":"Modelo","valor":"ONIX"},{"icone":"cor","rotulo":"Cor","valor":"Cinza"}],"galeria":["assets/img/veiculos/onix-lt/01.jpg","assets/img/veiculos/onix-lt/02.jpg","assets/img/veiculos/onix-lt/03.jpg","assets/img/veiculos/onix-lt/04.jpg","assets/img/veiculos/onix-lt/05.jpg","assets/img/veiculos/onix-lt/06.jpg","assets/img/veiculos/onix-lt/07.jpg","assets/img/veiculos/onix-lt/08.jpg","assets/img/veiculos/onix-lt/09.jpg","assets/img/veiculos/onix-lt/10.jpg"],"resumo":"Hatch moderno, econômico e tecnológico, ideal para quem busca conforto, segurança e excelente custo-benefício.","destaques":["Motor 1.0 Flex","Câmbio manual","Chave presencial","Botão Start/Stop","Direção elétrica","Ar-condicionado","Central multimídia MyLink","Android Auto e Apple CarPlay","Câmera de ré","6 airbags","Controle de estabilidade e tração","Assistente de partida em rampa","Vidros elétricos","Travas elétricas","Retrovisores elétricos","Computador de bordo","Excelente espaço interno","Veículo revisado, com garantia de fábrica e procedência.","Aceitamos trocas e financiamos."],"opcionais":["Airbag motorista","Airbag passageiro","Alarme","Ar Condicionado","Ar Quente","Banco do Motorista com regulagem de altura","Banco traseiro bipartido","Botão Start/Stop","Câmera de Ré","Chave de Presença","Chave Reserva","Computador de Bordo","Controle de som no volante","Destravamento remoto do porta malas","Direção Elétrica","Encosto cab. traseiro","Espelhamento tela celular","Farol de Milha","Kit Multimídia","Limpador Traseiro","Manual do proprietário","Parachoque na Cor","Rádio AM/FM","Rádio com Bluetooth","Rádio com entrada USB","Regulagem de Volante","Retrovisores elétricos","Travas Elétricas","Vidros elétricos","Volante multifuncional"]}]</script>
 <script src="assets/js/site/contato.js"></script>
+<script src="assets/js/site/venda.js"></script>
 <script src="assets/js/site/dados.js"></script>
 <script src="assets/js/site/estoque.js"></script>
 <script src="assets/js/site/mapa.js"></script>
