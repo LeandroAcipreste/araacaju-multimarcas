@@ -67,8 +67,7 @@ header .header__menu__bg {
   border-left: 1px solid rgba(255, 255, 255, .1);
 }
 
-header .header__menu__nav-site,
-header .header__menu__content {
+header .header__menu__nav-site {
   position: absolute;
   right: 0;
   left: auto;
@@ -88,24 +87,6 @@ header .header__menu__nav-site {
 }
 
 header .header__menu__nav-site li { white-space: nowrap; }
-
-header .header__menu__content {
-  top: auto;
-  bottom: calc(var(--wrapper-padd) * 2);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: .85rem;
-}
-
-header .header__menu__contato,
-header .header__menu .header__menu__link-footer {
-  opacity: .7;
-  transition: opacity .25s ease;
-}
-
-header .header__menu__contato:hover,
-header .header__menu .header__menu__link-footer:hover { opacity: 1; }
 
 @media (max-width: 950px) {
   header .header__menu {
@@ -1000,20 +981,6 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
   gap: .45em;
 }
 
-/* Dentro da faixa, o e-mail é um item da coluna como os outros. O tema o
-   posicionava em absolute atravessado no rodapé da página inteira, e o ícone
-   precisa ficar fora do <a> (o setLink duplica o innerHTML do link), então
-   quem manda no posicionamento é o invólucro. */
-header .header__menu .contato__item,
-header .header__menu .header__menu__link-footer {
-  position: relative;
-  top: auto;
-  right: auto;
-  bottom: auto;
-  left: auto;
-}
-
-header .header__menu .header__menu__link-footer { overflow: visible; }
 
 .contato__linha {
   display: flex;

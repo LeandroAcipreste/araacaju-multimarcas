@@ -103,7 +103,7 @@ window.addEventListener('DOMContentLoaded', ()=>{
                 menu_tl.fromTo(elem.querySelectorAll('.line:nth-of-type(1)'),{y:'105%'},{y:'0%', duration: .85, ease: 'power3.out'},1+(.1*index))
                 
             } )
-            menu_tl.from(link_footer.querySelectorAll('.char'),{y:'105%', duration: .65, stagger: 0.02, ease: 'power3.out'},1.4)
+            if(link_footer) menu_tl.from(link_footer.querySelectorAll('.char'),{y:'105%', duration: .65, stagger: 0.02, ease: 'power3.out'},1.4)
 
         
         }else{
@@ -134,7 +134,7 @@ window.addEventListener('DOMContentLoaded', ()=>{
             if(header_media_title)
                 menu_tl.from( header_media_title.querySelectorAll('.char'),{y:'105%', duration: .65, stagger: 0.033, ease: 'power3.out'},1.8)
 
-            menu_tl.from(link_footer.querySelectorAll('.char'),{y:'105%', duration: .65, stagger: 0.02, ease: 'power3.out',
+            if(link_footer) menu_tl.from(link_footer.querySelectorAll('.char'),{y:'105%', duration: .65, stagger: 0.02, ease: 'power3.out',
                  onReverseComplete:()=>{
                     if(control) console.log('--reverse menu_tl');
                     // if(document.querySelector('.mod-scroll') && header_logo_tl.progress() > 0 && !openMenu) header_logo_tl.reverse()
