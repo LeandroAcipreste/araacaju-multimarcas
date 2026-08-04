@@ -1,12 +1,50 @@
 /* brand.css — ajustes da Aracaju Multimarcas sobre o main.css do design-system.
-   O sistema tipográfico e de espaçamento fica intacto; aqui só entram a cor
-   de marca (amarelo do logotipo) e os poucos blocos que o tema original não
-   tinha, como a ficha técnica dos veículos. */
+   O sistema tipográfico e de espaçamento fica intacto; aqui entram a cor de
+   marca (amarelo do logotipo), a inversão do esquema de cores e os poucos
+   blocos que o tema original não tinha, como a ficha técnica dos veículos. */
 
+/* --- esquema invertido ----------------------------------------------------
+   O tema nasceu preto sobre branco. Aqui o papel é preto e a tinta é pérola.
+   A inversão acontece só nestes tokens: o main.css deixou de pintar preto e
+   branco direto nas regras e passou a usar --tinta / --papel / --papel-escuro.
+
+   Cuidado ao ler o HTML: as classes utilitárias mantiveram os nomes do tema,
+   então .bg-white agora pinta de PRETO e .c-black agora escreve em PÉROLA.
+   Trocar os nomes quebraria os ramos do JS que procuram
+   '.mod-scroll__intro.bg-black' (preloader.js, main.js, scroll.js).
+
+   O que continua preto de verdade: .bg-black, o véu dos modais e a cortina
+   de transição — eles já eram escuros e não têm para onde inverter. */
 :root {
   --amarelo: #F5C518;
+  --perola: #EFEBE3;
   --preto-marca: #111111;
+  --preto-2: #141414;
+
+  --tinta: var(--perola);
+  --papel: #000000;
+  --papel-escuro: #000000;
+
+  /* As três superfícies claras do tema (bege, cinza e azul) alternavam os
+     cards da faixa horizontal, a seção dos termos e o overlay do menu. Viram
+     três pretos ligeiramente diferentes: a alternância continua legível sem
+     nenhum bloco claro sobrando. */
+  --beige: var(--preto-2);
+  --grey: #1C1C1C;
+  --blue: #10141A;
 }
+
+/* O --blue também pintava o texto do cursor customizado, que fica em
+   mix-blend-mode sobre o ponto vermelho. Ali o azul-claro original continua. */
+#mouse span span { color: #C7D7E9; }
+
+/* Único bloco que continua claro: o fecho amarelo. Texto preto nele. */
+.bg-amarelo.c-black,
+.bg-amarelo .c-black { color: #000; }
+
+/* Asteriscos da faixa "SEMINOVOS": são <img> de um SVG com fill=currentColor,
+   e currentColor dentro de <img> não herda — resolve para preto. */
+.mod-scroll__carousel__image { filter: invert(1); }
 
 .bg-amarelo { background-color: var(--amarelo); }
 .c-amarelo  { color: var(--amarelo); }
@@ -28,6 +66,40 @@
 .logo__boring .reg { transform: none; }
 
 .logo__is { font-style: italic; }
+
+/* --- silhueta do hero -----------------------------------------------------
+   logo-marca.png é um traço branco sobre um retângulo PRETO OPACO — não tem
+   canal alfa. mix-blend-mode: screen resolve isso sem recortar a imagem:
+   sobre fundo preto o screen devolve o próprio pixel, então o retângulo some
+   e sobra só o desenho. O opacity aproxima o branco puro da pérola do texto.
+
+   Fica no canto inferior esquerdo do hero, a única área livre — o
+   .mod-scroll__intro__logo ocupa o topo à esquerda e o pé à direita. */
+main .mod-scroll__intro__marca {
+  position: absolute;
+  left: var(--wrapper-padd);
+  bottom: calc(var(--wrapper-padd) * 1.5);
+  width: 62%;
+  max-width: 46rem;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+main .mod-scroll__intro__marca img {
+  display: block;
+  width: 100%;
+  height: auto;
+  mix-blend-mode: screen;
+  opacity: .92;
+}
+
+@media (max-width: 950px) {
+  main .mod-scroll__intro__marca {
+    width: 86%;
+    bottom: calc(var(--wrapper-padd) * 2.5);
+  }
+}
 
 /* --- hero -----------------------------------------------------------------
    O tema traz width:80vw inline no wrapper do intro. Abaixo de 950px o CSS
@@ -67,11 +139,11 @@
   justify-content: center;
   width: 2.2rem;
   height: 2.2rem;
-  border: 1px solid rgba(0, 0, 0, .18);
+  border: 1px solid rgba(255, 255, 255, .22);
   border-radius: 50%;
   font-family: var(--f-izmir);
   font-size: var(--parrafo);
-  color: rgba(0, 0, 0, .35);
+  color: rgba(255, 255, 255, .4);
   transition: color .25s ease, border-color .25s ease, background-color .25s ease;
 }
 
@@ -82,8 +154,8 @@
 }
 
 .ficha__passo.is-feito {
-  border-color: rgba(0, 0, 0, .5);
-  color: rgba(0, 0, 0, .5);
+  border-color: rgba(255, 255, 255, .55);
+  color: rgba(255, 255, 255, .55);
 }
 
 .ficha {
@@ -131,7 +203,7 @@
   cursor: pointer;
 }
 
-.ficha__opcao input { accent-color: var(--preto-marca); }
+.ficha__opcao input { accent-color: var(--amarelo); }
 
 .ficha__acoes {
   display: flex;
@@ -154,9 +226,10 @@
 .ficha__voltar:hover { opacity: 1; }
 .ficha__acoes [hidden] { display: none; }
 
-/* campo com erro depois de tentar avançar */
+/* campo com erro depois de tentar avançar — vermelho clareado, porque o
+   #C0392B do tema some no fundo preto */
 .modal__content__form__input.is-invalido {
-  border-bottom-color: #C0392B;
+  border-bottom-color: #E4665B;
 }
 
 .ficha__erro {
@@ -164,7 +237,7 @@
   margin-bottom: 1rem;
   font-family: var(--f-izmir);
   font-size: var(--subtitulo);
-  color: #C0392B;
+  color: #E4665B;
 }
 
 /* --- grade do estoque -----------------------------------------------------
@@ -283,7 +356,7 @@
   aspect-ratio: 4 / 3;
   overflow: hidden;
   border-radius: calc(var(--border-radius) * .5);
-  background: rgba(0, 0, 0, .05);
+  background: rgba(255, 255, 255, .05);
 }
 
 .veiculo__foto__img {
@@ -305,6 +378,8 @@
   border: 0;
   border-radius: 50%;
   background: rgba(255, 255, 255, .9);
+  /* o ‹ › herdaria a tinta pérola e sumiria dentro do círculo claro */
+  color: #000;
   font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
@@ -420,7 +495,7 @@
 
 .veiculo__opcionais li {
   padding: .2em .7em;
-  border: 1px solid rgba(0, 0, 0, .15);
+  border: 1px solid rgba(255, 255, 255, .18);
   border-radius: 2em;
   font-size: var(--subtitulo);
   opacity: .7;
@@ -436,17 +511,22 @@
   width: 100%;
 }
 
+/* Os sete logotipos são PNG colorido sobre transparência. O grayscale puro do
+   tema os deixava cinza-médio, quase invisíveis no preto; o brightness sobe o
+   conjunto sem achatá-lo. Silhueta chapada (brightness(0) invert(1)) não serve
+   aqui: transforma Ford e Land Rover em elipses sólidas, sem o lettering
+   interno. No hover volta a cor original. */
 .marcas img {
   width: 2.6vw;
   min-width: 34px;
   height: auto;
-  filter: grayscale(1);
-  opacity: .55;
+  filter: grayscale(1) brightness(1.75);
+  opacity: .8;
   transition: opacity .3s ease, filter .3s ease;
 }
 
 .marcas img:hover {
-  filter: grayscale(0);
+  filter: none;
   opacity: 1;
 }
 

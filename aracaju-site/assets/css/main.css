@@ -80,6 +80,13 @@
   --padding-xs: 1.6rem;
   --border-radius: 1.25rem;
   --black: #000000;
+  /* Tokens de papel/tinta. O tema original pintava preto e branco direto nas
+     regras; aqui os dois papéis viraram variáveis para que o brand.css possa
+     inverter o esquema num lugar só. Os valores abaixo reproduzem o tema
+     original — quem inverte é o brand.css. */
+  --tinta: var(--black);
+  --papel: #FFFFFF;
+  --papel-escuro: var(--black);
   --beige: #ECE4DA;
   --red: #DB5C59;
   --blue: #C7D7E9;
@@ -436,8 +443,8 @@ body, html {
   padding: 0;
   font-family: var(--f-regular);
   font-size: var(--fsize);
-  color: var(--black);
-  background: white;
+  color: var(--tinta);
+  background: var(--papel);
   scrollbar-width: none;
   overflow-x: clip;
 }
@@ -448,7 +455,7 @@ body {
 }
 
 html {
-  background: var(--black);
+  background: var(--papel-escuro);
 }
 html #smooth-wrapper {
   position: relative;
@@ -727,8 +734,8 @@ html.is_safari input[type=submit] {
 }
 
 .bg-white {
-  background: white;
-  box-shadow: 0px -1px 0px white;
+  background: var(--papel);
+  box-shadow: 0px -1px 0px var(--papel);
 }
 @media (max-width: 950px) {
   .bg-white {
@@ -736,8 +743,8 @@ html.is_safari input[type=submit] {
   }
 }
 .bg-black {
-  background: var(--black);
-  box-shadow: 0px -1px 0px var(--black);
+  background: var(--papel-escuro);
+  box-shadow: 0px -1px 0px var(--papel-escuro);
 }
 @media (max-width: 950px) {
   .bg-black {
@@ -791,7 +798,7 @@ html.is_safari input[type=submit] {
 }
 
 .c-black {
-  color: var(--black);
+  color: var(--tinta);
 }
 .c-white {
   color: white;
@@ -807,10 +814,10 @@ input[type=text] {
   border: 0px solid transparent;
   outline: 0px solid transparent;
   background: transparent;
-  color: var(--black);
+  color: var(--tinta);
   font-size: var(--titulo);
   font-family: var(--f-izmir);
-  border-bottom: 1px solid var(--black);
+  border-bottom: 1px solid var(--tinta);
   padding: 0.1em 0.1em 0.4em;
   line-height: 1.2;
 }
@@ -825,7 +832,7 @@ input[type=checkbox] {
   font: inherit;
   width: 1em;
   height: 1em;
-  border: 1px solid var(--black);
+  border: 1px solid var(--tinta);
   transform: translateY(0.075em);
   cursor: pointer;
 }
@@ -854,10 +861,10 @@ input[type=checkbox]:checked:before {
 }
 .btn--bg {
   position: relative;
-  background: var(--black);
-  color: white;
+  background: var(--tinta);
+  color: var(--papel);
   padding: calc(0.6em - 2px) calc(1.3em - 2px);
-  border: 1.5px solid var(--black);
+  border: 1.5px solid var(--tinta);
   border-radius: var(--b-radius);
   white-space: nowrap;
   overflow: hidden;
@@ -868,7 +875,7 @@ input[type=checkbox]:checked:before {
 @media (max-width: 950px) {
   .btn--bg {
     padding: calc(0.6em - 1px) calc(1.3em - 1px);
-    border: 1px solid var(--black);
+    border: 1px solid var(--tinta);
   }
 }
 .btn--bg span {
@@ -910,14 +917,14 @@ input[type=checkbox]:checked:before {
   }
 }
 .btn--bg-white::before {
-  background: white;
+  background: var(--papel);
 }
 .btn--bg-inv {
   background: var(--beige);
-  color: var(--black);
+  color: var(--tinta);
 }
 .btn--bg-inv::before {
-  background: var(--black);
+  background: var(--tinta);
 }
 .btn--bg-inv.btn--bg-grey {
   background: var(--grey);
@@ -937,8 +944,8 @@ input[type=checkbox]:checked:before {
   align-items: center;
   width: 7.5rem;
   aspect-ratio: 1/1;
-  background: var(--black);
-  color: white;
+  background: var(--tinta);
+  color: var(--papel);
   border-radius: 100%;
 }
 @media (max-width: 1024px) {
@@ -973,7 +980,7 @@ input[type=checkbox]:checked:before {
   height: 1px;
   top: auto;
   left: var(--x);
-  background: var(--black);
+  background: var(--tinta);
   bottom: -0.015em;
 }
 
@@ -1164,10 +1171,10 @@ input[type=checkbox]:checked:before {
   width: 0.25rem;
 }
 .modal::-webkit-scrollbar-track {
-  background: var(--black);
+  background: var(--papel-escuro);
 }
 .modal::-webkit-scrollbar-thumb {
-  background: rgb(255, 255, 255);
+  background: var(--tinta);
   border-radius: 0.25rem;
 }
 .modal__bg {
@@ -1338,7 +1345,7 @@ input[type=checkbox]:checked:before {
   padding: 0;
   border-color: transparent;
   font-size: 1.1em;
-  color: var(--black);
+  color: var(--tinta);
   text-transform: uppercase;
   text-align: right;
   border: 0px solid transparent;
@@ -1369,8 +1376,8 @@ input[type=checkbox]:checked:before {
   transition: background 0.2s ease, color 0.2s ease;
 }
 .modal--contact .modal__content .wpcf7-submit:not([disabled]):hover {
-  background: white;
-  color: var(--black);
+  background: var(--tinta);
+  color: var(--papel);
 }
 .modal--contact .modal__content .wpcf7-spinner {
   position: absolute;
@@ -1435,7 +1442,7 @@ input[type=checkbox]:checked:before {
 }
 .modal--avaliable {
   min-height: 100svh;
-  background: white;
+  background: var(--papel);
 }
 .modal--avaliable .modal__bg {
   display: none;
@@ -1529,10 +1536,10 @@ input[type=checkbox]:checked:before {
   height: 0.25rem;
 }
 .modal--avaliable .modal__content__wrap-table::-webkit-scrollbar-track {
-  background: white;
+  background: var(--papel);
 }
 .modal--avaliable .modal__content__wrap-table::-webkit-scrollbar-thumb {
-  background: var(--black);
+  background: var(--tinta);
   border-radius: 0.4rem;
 }
 .modal--avaliable .modal__content__table {
@@ -1556,7 +1563,7 @@ input[type=checkbox]:checked:before {
   line-height: var(--parrafo-l-lh);
   align-items: flex-start;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--black);
+  border-bottom: 1px solid var(--tinta);
   margin-bottom: 1rem;
 }
 .modal--avaliable .modal__content__table__row {
@@ -1657,7 +1664,7 @@ input[type=checkbox]:checked:before {
 .modal--anchors .anchors__content {
   position: relative;
   min-width: calc((99.9vw - var(--wrapper-padd) * 2 - var(--grid-gap) * 11) / 12 * 3 + var(--grid-gap) * 2);
-  background: white;
+  background: var(--papel);
   border-radius: var(--border-radius);
   padding: 1.15rem;
   overflow: hidden;
@@ -1849,7 +1856,7 @@ input[type=checkbox]:checked:before {
   height: 2px;
   transform: translate(0, 0);
   border-radius: 3px;
-  background: var(--black);
+  background: var(--tinta);
 }
 .close span:nth-of-type(1) {
   transform-origin: center;
@@ -1905,7 +1912,7 @@ input[type=checkbox]:checked:before {
   height: 100svh;
   transform: translateY(100%);
   z-index: 1000000;
-  background: var(--black);
+  background: var(--papel-escuro);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -3608,7 +3615,7 @@ main .mod-scroll__images-text__text p {
 main .mod-scroll__carousel {
   position: relative;
   width: 1.5em;
-  background: var(--black);
+  background: var(--papel-escuro);
   z-index: 10;
 }
 @media (max-width: 950px) {
@@ -4061,7 +4068,7 @@ main .mod-scroll__projects .last-item__content {
   position: absolute;
   top: 0;
   height: var(--100vh);
-  background: white;
+  background: var(--papel);
   z-index: 1;
 }
 @media (max-width: 950px) {

@@ -201,6 +201,13 @@ código:
 - **`main.css`** — os `url()` das fontes apontam para `../fonts/`, e os
   fallbacks `.woff` que o scraper nunca baixou foram removidos (o `.woff2` vem
   antes no `src` e é o que todo navegador atual usa).
+- **`main.css`** — as 36 ocorrências de preto e branco que estavam escritas
+  direto nas regras viraram `var(--tinta)`, `var(--papel)` e
+  `var(--papel-escuro)`, com os valores originais no `:root`. Sozinho o arquivo
+  continua desenhando o tema claro; quem inverte é o `brand.css` (ver **Cores**).
+- **`rollovers.js`** — o `colorEnd` do hover dos botões era `'white'`/`'black'`
+  fixo no JS. Passou a usar os mesmos tokens, senão o texto sumia dentro da
+  mancha de hover.
 
 E em `brand.css`:
 
@@ -216,6 +223,54 @@ E em `brand.css`:
   disso o CSS dimensiona a grade dos títulos a partir de `99.9vw`, e o wrapper
   estreito jogava o conteúdo para fora da tela pela esquerda (o site original
   tem esse mesmo defeito no mobile).
+
+## Cores
+
+O site é preto com tinta pérola. O tema nasceu ao contrário — preto sobre
+branco — e a inversão acontece num bloco só, no `:root` do `brand.css`:
+
+| Token | Antes | Agora |
+|---|---|---|
+| `--tinta` | `#000000` | `--perola` `#EFEBE3` |
+| `--papel` | `#FFFFFF` | `#000000` |
+| `--papel-escuro` | `#000000` | `#000000` (não tem para onde inverter) |
+| `--beige` | `#ECE4DA` | `#141414` |
+| `--grey` | `#707070` | `#1C1C1C` |
+| `--blue` | `#C7D7E9` | `#10141A` |
+
+Bege, cinza e azul eram as três superfícies claras que alternavam os cards da
+faixa horizontal, a seção dos termos e o overlay do menu. Viraram três pretos
+ligeiramente diferentes, para a alternância continuar perceptível.
+
+**Armadilha:** as classes utilitárias mantiveram os nomes do tema. No HTML,
+`.bg-white` agora pinta de **preto** e `.c-black` escreve em **pérola**. Trocar
+os nomes quebraria os ramos do JS que procuram `.mod-scroll__intro.bg-black`
+(`preloader.js`, `main.js`, `scroll.js`).
+
+O amarelo da marca (`--amarelo`, `#F5C518`) é o único bloco claro que sobrou —
+o fecho da faixa horizontal e o passo ativo da ficha. Nele o texto continua
+preto, por uma regra explícita.
+
+Três lugares precisaram de tratamento próprio, todos comentados no `brand.css`:
+
+- **logotipos das marcas** — PNG colorido sobre transparência. Em `grayscale`
+  puro ficavam cinza-médio e sumiam; `brightness(1.75)` sobe o conjunto sem
+  achatá-lo. Silhueta chapada (`brightness(0) invert(1)`) não serve: transforma
+  Ford e Land Rover em elipses sólidas, sem o lettering interno.
+- **asteriscos da faixa "SEMINOVOS"** — são `<img>` de um SVG com
+  `fill="currentColor"`, e `currentColor` dentro de `<img>` não herda: resolve
+  para preto. Levam `filter: invert(1)`.
+- **setas da galeria** — o círculo continua branco, então o `‹ ›` ganhou
+  `color: #000`; se herdasse a pérola sumiria dentro do círculo.
+
+### Silhueta do hero
+
+`assets/img/logo/logo-marca.png` é um traço branco sobre um retângulo **preto
+opaco** — não tem canal alfa. Fica no canto inferior esquerdo do hero (a única
+área livre: o `.mod-scroll__intro__logo` ocupa o topo à esquerda e o pé à
+direita) e some no fundo por `mix-blend-mode: screen`, que sobre preto devolve
+o próprio pixel. Não depende de recortar a imagem — mas depende do fundo ser
+preto de verdade.
 
 ## Limitações do material de origem
 

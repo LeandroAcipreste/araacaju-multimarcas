@@ -100,7 +100,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dur = (!is_mobile) ? .33 : .00001;
                 const dur2 = (!is_mobile) ? .25 : .00001;
                 let pos = ['posXin','posXout','posYin','posYout'], spanPos = ['x','xneg','y','yneg'];
-                const colorEnd = (elem.classList.contains('btn--bg-inv'))? 'white' : 'black' ;
+                // cor do texto enquanto a mancha de hover cobre o botão. O tema
+                // trazia 'white'/'black' fixos no JS; com o esquema invertido do
+                // brand.css os dois lados trocam de lugar. Como isto é um
+                // gsap.set (e não um tween de cor), var() resolve normalmente.
+                const colorEnd = (elem.classList.contains('btn--bg-inv'))? 'var(--papel)' : 'var(--tinta)' ;
                 
                 elem.addEventListener('mouseenter', (event) => {
 
