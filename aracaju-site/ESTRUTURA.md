@@ -272,6 +272,28 @@ direita) e some no fundo por `mix-blend-mode: screen`, que sobre preto devolve
 o próprio pixel. Não depende de recortar a imagem — mas depende do fundo ser
 preto de verdade.
 
+## Contato
+
+O endereço divide a seção com um **mapa do Google** embutido. O `src` usa
+`output=embed`, que não pede chave de API — se um dia o Google fechar essa
+porta, o substituto é a Maps Embed API (`/maps/embed/v1/place`) com chave,
+trocando só o `src`.
+
+O iframe nasce com `pointer-events: none` e só liga no clique
+(`mapa.js`). Sem isso o mapa engoliria a roda do mouse para dar zoom, e numa
+página em que tudo é rolagem — ScrollSmoother, Lenis e a faixa horizontal
+presa no pin — passar o cursor por cima prenderia o visitante.
+
+O botão **Falar no WhatsApp** fica logo abaixo de "Agende sua visita"; embaixo
+do mapa sobrou o de Ficha Cadastral.
+
+As duas fotos antes do rodapé (ficha cadastral / venda seu carro) levam véu
+escuro, ícone, título e uma linha de instrução, e o cartão inteiro é clicável —
+o da esquerda abre o modal da ficha, o da direita abre o WhatsApp. Sem isso
+eram duas imagens sem legenda e sem link. O véu mora dentro de
+`.media__wrap-source`, não na raiz do cartão: preso na raiz ele se esticava
+com o flex e sobrava um retângulo preto embaixo do cartão mais baixo.
+
 ## Limitações do material de origem
 
 - As 79 fotos dos veículos vieram do servidor da loja em resolução cheia (ver
