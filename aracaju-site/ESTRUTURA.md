@@ -278,10 +278,17 @@ resolvia — o Swup continuava assumindo o clique —, então `index.html` tamb�
 entrou na exceção do `linkSelector` no `main.js`, ao lado de `contacto` e
 `vender`.
 
-**O botão "Menu" em si nunca foi o problema**: no topo da página ele fica
-estacionado fora da tela (`translate3d(0,-180%,0)`, coisa do tema) e só desce
-depois que a faixa horizontal começa a rolar. Quando está visível, o clique
-abre o overlay normalmente.
+### O botão "Menu"
+
+No tema, o botão do menu só era revelado por um ScrollTrigger, depois que a
+faixa horizontal passava de 125% — e voltava a se esconder no `onEnterBack`.
+Ou seja: **na primeira tela do site não existia botão de menu nenhum**, e quem
+clicava onde ele costuma ficar não apertava coisa alguma (ele fica estacionado
+em `translate3d(0,-180%,0)`, fora da viewport). O tema podia se dar a esse luxo
+porque o hero tem o menu vertical próprio.
+
+Agora o `header_btn_tl` toca junto com a página, em qualquer largura — como já
+era no mobile — e nada o esconde de volta (`scroll.js`).
 
 ### Âncoras
 

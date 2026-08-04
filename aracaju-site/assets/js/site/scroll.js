@@ -33,21 +33,28 @@ document.addEventListener('DOMContentLoaded', () => {
                         // console.log('onEnter header_logo_tl');
                         // console.log( document.querySelector('.mod-scroll__intro'));
                         if(document.querySelector('.mod-scroll__intro')) header_logo_tl.progress(0).play()
-                        if(!is_mobile) header_btn_tl.timeScale(1).play()
                     },
                     onEnterBack: () => {
                         // console.log('onEnterBack header_logo_tl');
                         // console.log( header_logo_normal.classList);
-                        
+
                         if(document.querySelector('.mod-scroll__intro') && !header_logo_normal.classList.contains('disabled')) header_logo_tl.reverse()
-                        if(!is_mobile) header_btn_tl.timeScale(1.75).reverse()
                     },
                     // toggleActions: 'play none none reverse',
                     // markers: true,
                 })
-            }else{
-                header_btn_tl.timeScale(1).play()
             }
+
+            // O botão do menu entra junto com a página, em qualquer largura.
+            //
+            // No tema ele só era revelado por este ScrollTrigger, depois que a
+            // faixa horizontal passava de 125% — e voltava a se esconder no
+            // onEnterBack. Ou seja: na primeira tela do site não existia botão
+            // de menu nenhum, e quem clicava onde ele costuma ficar não
+            // apertava coisa alguma. O tema podia se dar a esse luxo porque o
+            // hero tem o menu vertical próprio; aqui o botão fica sempre à mão.
+            // (No mobile já era assim.)
+            header_btn_tl.timeScale(1).play()
 
         }
         

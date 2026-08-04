@@ -920,6 +920,31 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
   gap: .45em;
 }
 
+/* No overlay do menu quem era posicionado em absolute é o próprio link. Como
+   o ícone precisa ficar fora dele (o setLink duplica o innerHTML), o
+   posicionamento passou para o invólucro e o link volta ao fluxo — senão o
+   ícone ficava sozinho no canto superior e o e-mail, do outro lado da tela. */
+header .header__menu .contato__item {
+  position: absolute;
+  bottom: var(--wrapper-padd);
+  left: calc((99.9vw - var(--wrapper-padd) * 2 - var(--grid-gap) * 11) / 12 * 6 + var(--grid-gap) * 5 + var(--grid-gap) + var(--wrapper-padd));
+}
+
+header .header__menu .contato__item .header__menu__link-footer {
+  position: relative;
+  bottom: auto;
+  left: auto;
+}
+
+@media (max-width: 950px) {
+  header .header__menu .contato__item {
+    position: relative;
+    bottom: auto;
+    left: 0;
+    order: 3;
+  }
+}
+
 .contato__linha {
   display: flex;
   align-items: flex-start;
