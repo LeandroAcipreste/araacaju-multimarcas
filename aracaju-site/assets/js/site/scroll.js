@@ -582,7 +582,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const lastProject_carousel_items = lastProject.querySelectorAll('.last-item__carousel__item:not(.last-item__carousel__item--link)')
             const pin = document.querySelector('.mod-scroll__pin');
             const numItem = document.querySelectorAll('.last-item__carousel__item').length
-            const widthPin = (numItem-1)*100;
+            // Fixo em 200vw. Vinha de (numItem-1)*100, o que amarrava a rolagem
+            // da faixa ao número de cartões do carrossel: tirar um cartão
+            // encurtava o pin e a faixa era solta antes de terminar, ficando
+            // por cima da seção de estoque.
+            const widthPin = 200;
 
             if(!is_mobile){
 

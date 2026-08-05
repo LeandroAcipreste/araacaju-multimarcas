@@ -1,20 +1,7 @@
-/* brand.css — ajustes da Aracaju Multimarcas sobre o main.css do design-system.
-   O sistema tipográfico e de espaçamento fica intacto; aqui entram a cor de
-   marca (amarelo do logotipo), a inversão do esquema de cores e os poucos
-   blocos que o tema original não tinha, como a ficha técnica dos veículos. */
+/* brand.css — ajustes da Aracaju Multimarcas sobre o main.css do design-system. */
 
 /* --- esquema invertido ----------------------------------------------------
-   O tema nasceu preto sobre branco. Aqui o papel é preto e a tinta é pérola.
-   A inversão acontece só nestes tokens: o main.css deixou de pintar preto e
-   branco direto nas regras e passou a usar --tinta / --papel / --papel-escuro.
-
-   Cuidado ao ler o HTML: as classes utilitárias mantiveram os nomes do tema,
-   então .bg-white agora pinta de PRETO e .c-black agora escreve em PÉROLA.
-   Trocar os nomes quebraria os ramos do JS que procuram
-   '.mod-scroll__intro.bg-black' (preloader.js, main.js, scroll.js).
-
-   O que continua preto de verdade: .bg-black, o véu dos modais e a cortina
-   de transição — eles já eram escuros e não têm para onde inverter. */
+   O tema nasceu preto sobre branco. */
 :root {
   --amarelo: #F5C518;
   --perola: #EFEBE3;
@@ -25,10 +12,7 @@
   --papel: #000000;
   --papel-escuro: #000000;
 
-  /* As três superfícies claras do tema (bege, cinza e azul) alternavam os
-     cards da faixa horizontal, a seção dos termos e o overlay do menu. Viram
-     três pretos ligeiramente diferentes: a alternância continua legível sem
-     nenhum bloco claro sobrando. */
+  /* As três superfícies claras do tema (bege, cinza e azul) alternavam os cards da faixa horizontal, a seção dos termos e o overlay do menu. */
   --beige: var(--preto-2);
   --grey: #1C1C1C;
   --blue: #10141A;
@@ -39,14 +23,7 @@
 #mouse span span { color: #C7D7E9; }
 
 /* --- menu: faixa lateral --------------------------------------------------
-   O tema abria o menu como uma página inteira, com foto em destaque e lista
-   de veículos. Aqui é uma faixa estreita encostada na direita, e o que cresce
-   da direita para a esquerda é a própria largura do fundo — o `menu_tl` do
-   clicks.js já animava `.header__menu__bg` de 0 a 100%, só passou a medir a
-   faixa em vez da viewport.
-
-   O bloco continua fixo cobrindo a tela toda, porque é ele que escurece o
-   resto da página; quem tem largura de faixa é o conteúdo. */
+   O tema abria o menu como uma página inteira, com foto em destaque e lista de veículos. */
 :root { --faixa-menu: 4.4rem; }
 
 header .header__menu {
@@ -66,9 +43,8 @@ header .header__menu__bg {
   background: #000;
 }
 
-/* Mesma receita do menu vertical do hero (.mod-scroll__intro__menu): uma linha
-   de itens girada -90° com origem no canto inferior direito, o que faz o bloco
-   descer pela lateral com o primeiro item embaixo. */
+/* Mesma receita do menu vertical do hero: linha de itens girada -90°, com
+   origem no canto inferior direito. */
 header .header__menu__nav-site {
   position: absolute;
   top: calc(var(--wrapper-padd) - 1.15rem);
@@ -89,19 +65,9 @@ header .header__menu__nav-site {
 header .header__menu__nav-site li { white-space: nowrap; }
 
 /* --- botão do menu --------------------------------------------------------
-   O tema pendurava um `filter: invert(100%)` neste botão para ele se defender
-   sozinho de seções claras. A página aqui é toda escura, então o filtro só
-   fazia ele aparecer ao contrário de todos os outros botões do site: escuro
-   com texto claro, enquanto "Falar no WhatsApp" e companhia são pérola com
-   texto preto. Sem o filtro, o `.btn--bg` já entrega o certo — pérola com
-   "Menu" em preto — e a cor declarada no CSS é a que aparece na tela.
-
-   Só a mancha de hover precisa de ajuste: o tema a pintava de branco (contando
-   com a inversão). Preta, ela cobre a pílula clara e o texto vira pérola pelo
-   rollovers.js, que é o mesmo hover dos outros botões. */
-/* O botão saiu de dentro do .header (ver comentário no index.html), então ele
-   perdeu o pai fixo que o segurava no canto: passa a ser fixed por conta
-   própria, nas mesmas coordenadas. */
+   O tema pendurava um `filter: invert(100%)` neste botão para ele se defender sozinho de seções claras. */
+/* Fora do .header, que está inteiro em mix-blend-mode: difference. Perdeu o
+   pai fixo, então é fixed por conta própria. */
 header .header__btn {
   position: fixed;
   filter: none;
@@ -144,14 +110,7 @@ header .header__btn.is-x::before { display: none; }
 .c-amarelo  { color: var(--amarelo); }
 
 /* --- logotipo -------------------------------------------------------------
-   O tema usa três blocos (normal / is / boring). Aqui viram
-   Aracaju / multi / marcas.
-
-   A caixa do logotipo tem largura fixa: .logo__normal é absolute encostado à
-   esquerda e .logo__group fica encostado à direita, sem nada empurrando um ao
-   outro. Os 5.279em originais eram medidos na palavra "Normal"; "ARACAJU" é
-   mais larga e entrava por cima do "multi" — daí a caixa maior aqui. Se o
-   nome mudar, este número precisa ser remedido. */
+   O tema usa três blocos (normal / is / boring). */
 .logo { width: 7.9em; }
 
 /* O "boring" original era girado 180° como piada da marca antiga; em "marcas"
@@ -162,13 +121,7 @@ header .header__btn.is-x::before { display: none; }
 .logo__is { font-style: italic; }
 
 /* --- silhueta do hero -----------------------------------------------------
-   logo-marca.png é um traço branco sobre um retângulo PRETO OPACO — não tem
-   canal alfa. mix-blend-mode: screen resolve isso sem recortar a imagem:
-   sobre fundo preto o screen devolve o próprio pixel, então o retângulo some
-   e sobra só o desenho. O opacity aproxima o branco puro da pérola do texto.
-
-   Fica no canto inferior esquerdo do hero, a única área livre — o
-   .mod-scroll__intro__logo ocupa o topo à esquerda e o pé à direita. */
+   logo-marca.png é um traço branco sobre um retângulo PRETO OPACO — não tem canal alfa. */
 main .mod-scroll__intro__marca {
   position: absolute;
   left: var(--wrapper-padd);
@@ -190,10 +143,7 @@ main .mod-scroll__intro__marca img {
   opacity: .92;
 }
 
-/* A assinatura encosta na base do desenho. A margem negativa é em %, que em
-   margin resolve contra a LARGURA do container — e a folga preta embaixo do
-   PNG mede 22,3% dessa largura (39,6% da altura, que é 0,563 da largura).
-   -20% deixa o restinho de respiro entre a roda e o texto. */
+/* A assinatura encosta na base do desenho. */
 main .mod-scroll__intro__marca__tag {
   display: block;
   margin-top: -20%;
@@ -224,25 +174,13 @@ main .mod-scroll__intro__marca__tag i {
 }
 
 /* --- hero -----------------------------------------------------------------
-   O tema traz width:80vw inline no wrapper do intro. Abaixo de 950px o CSS
-   dimensiona a grade dos títulos a partir de 99.9vw, então o wrapper estreito
-   fazia o conteúdo estourar para fora da tela pela esquerda. Aqui a largura
-   reduzida vale só no desktop, onde a faixa é mesmo horizontal. */
+   O tema traz width:80vw inline no wrapper do intro. */
 @media (min-width: 951px) {
   main .mod-scroll__intro .wrapper { width: 80vw; }
 }
 
 /* --- fecho do último veículo ("Quem disse que seminovo…") ------------------
-   O painel preto não tem largura fixa: o scroll.js anima
-   .last-item__content de 40vw até 57.5vw enquanto a faixa horizontal corre
-   (scroll.js, maxWidthItem/widthCarouselLast). O tema, porém, fixava o wrap
-   em 57.5vw e dava .col-12 às linhas do título — e .col-12 mede ~99.9vw,
-   a viewport inteira. Resultado: durante quase toda a animação o texto era
-   mais largo que o painel que o contém, e as duas linhas .t-right saíam pela
-   direita, por baixo do fecho amarelo.
-
-   Amarrando os dois no painel, o texto acompanha a largura real em cada
-   quadro da animação. O respiro à direita é o padding do próprio wrap. */
+   O scroll.js anima a largura do painel; o texto tem de acompanhar. */
 main .mod-scroll__projects .last-item__content__wrap { width: 100%; }
 main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
 
@@ -258,9 +196,7 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
 .veiculo__preco { display: block; }
 
 /* --- ficha cadastral em 5 passos ------------------------------------------
-   Mesma sequência do site original: dados pessoais, endereço, dados
-   profissionais, referências e descrição do bem. Só uma etapa fica visível
-   por vez; as outras saem do fluxo com [hidden]. */
+   Mesma sequência do site original: dados pessoais, endereço, dados profissionais, referências e descrição do bem. */
 .ficha__passos {
   display: flex;
   gap: .6rem;
@@ -377,9 +313,7 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
 }
 
 /* --- barra de busca do estoque --------------------------------------------
-   Chips de marca em cima, campos embaixo, como no site original. As opções
-   dos campos saem do próprio catálogo (estoque.js): o que não está no estoque
-   não aparece na lista. */
+   Chips de marca em cima, campos embaixo, como no site original. */
 .filtros {
   width: 100%;
   margin-bottom: 2.6rem;
@@ -526,11 +460,7 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
 }
 
 /* --- modal "venda seu veículo" --------------------------------------------
-   Reaproveita a linguagem da ficha cadastral. O tema escreveu os estilos de
-   campo presos a .modal--contact, então eles são repetidos aqui em vez de
-   pendurar a classe do outro modal neste: o root.js e o clicks.js pegam
-   '.modal--contact' com querySelector (singular) e passariam a encontrar o
-   modal errado. */
+   Reaproveita a linguagem da ficha cadastral. */
 .modal--venda .modal__content {
   width: min(52rem, 92vw);
   max-height: 88vh;
@@ -658,8 +588,7 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
 }
 
 /* --- modal do veículo -----------------------------------------------------
-   Segue o mesmo arranjo do site original: galeria à esquerda, preço, ficha em
-   grade e as duas chamadas à direita. */
+   Segue o mesmo arranjo do site original: galeria à esquerda, preço, ficha em grade e as duas chamadas à direita. */
 .modal--veiculo .modal__content {
   position: relative;
   z-index: 10;
@@ -849,10 +778,8 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
   gap: .35rem .5rem;
 }
 
-/* Os opcionais ficam na coluna da galeria, no vazio embaixo das miniaturas —
-   a coluna da direita é bem mais alta (ficha + chamadas + destaques) e
-   sobrava um bloco morto aqui. O estoque.js não precisa saber: ele acha a
-   lista por `modal.querySelector` e esconde o bloco pelo `.closest`. */
+/* Opcionais na coluna da galeria: a da direita é bem mais alta e sobrava
+   um bloco morto aqui. */
 .veiculo__bloco--opcionais {
   margin-top: 1.5rem;
   margin-bottom: 0;
@@ -867,21 +794,7 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
 }
 
 /* --- as duas chamadas antes do rodapé -------------------------------------
-   Eram só duas fotos soltas, sem legenda e sem link — ninguém sabia para que
-   serviam. Ganharam a mesma leitura do site original: véu escuro, ícone,
-   título e uma linha de instrução, com o cartão inteiro clicável.
-
-   Os ícones (icon-ficha, icon-vender) já vinham do material de origem e são
-   SVG com `fill="white"`, então caem certo sobre o véu.
-
-   O `.chamada` fica dentro do `.media__wrap-source`, e não no lugar do
-   `.media`: assim entra com o mesmo clip-path que o tema anima e, principalmente,
-   cobre exatamente a foto. Preso na raiz do cartão, o véu se esticava junto
-   com o flex e sobrava um retângulo preto embaixo do cartão mais baixo.
-
-   Os dois cartões viraram col-6 com a mesma proporção — antes eram 6 e 4, e
-   lado a lado ficavam de tamanhos diferentes. O object-fit apara a foto da
-   direita, que é um pouco mais larga que a caixa. */
+   Eram só duas fotos soltas, sem legenda e sem link — ninguém sabia para que serviam. */
 .mod-media__item--chamada .media__source {
   width: 100%;
   height: 100%;
@@ -929,16 +842,7 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
 }
 
 /* --- mapa -----------------------------------------------------------------
-   Ocupa a coluna que estava vazia ao lado do endereço.
-
-   O embed usa `output=embed`, que não pede chave de API. Se um dia o Google
-   fechar essa porta, o substituto é a Maps Embed API (`/maps/embed/v1/place`)
-   com uma chave — muda só o `src` do iframe.
-
-   O filtro é o truque padrão de mapa escuro: inverter e girar o matiz 180°
-   devolve as cores para perto do original, só que sobre fundo escuro. Um mapa
-   branco seria o único retângulo aceso da página. Para voltar ao mapa claro,
-   é só apagar a linha do filter. */
+   Ocupa a coluna que estava vazia ao lado do endereço. */
 .mapa {
   position: relative;
   width: 100%;
@@ -991,13 +895,7 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
 }
 
 /* --- ícones de contato ----------------------------------------------------
-   O sprite fica no topo do <body>; aqui só o tamanho e o alinhamento. Herdam
-   a cor do texto (currentColor), então acompanham a tinta e o hover sem
-   nenhuma regra extra.
-
-   Nos links do tema o ícone é IRMÃO do <a>, nunca filho: o setLink() do
-   rollovers.js passa SplitText no link e duplica o innerHTML para montar o
-   hover — um <svg> lá dentro sairia dobrado e picado em pedaços. */
+   O sprite fica no topo do <body>; aqui só o tamanho e o alinhamento. */
 .sprite {
   position: absolute;
   width: 0;
@@ -1047,14 +945,9 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
 }
 
 /* --- aviso de rolagem -----------------------------------------------------
-   A home tem dois sentidos de leitura: a faixa horizontal anda para o lado e
-   o resto desce. Quem não está acostumado com página que rola de lado trava
-   ali. O aviso fica preso no pé da tela dizendo o sentido do momento, com a
-   seta girando conforme o `data-direcao` que o rolagem.js escreve. */
-/* O lugar muda com o modo, porque o que está livre muda junto: na faixa
-   horizontal o pé do meio da tela está vazio, e na parte vertical é o canto
-   esquerdo que sobra — no meio dela a dica cairia em cima dos botões grandes
-   que a página centraliza ("Falar no WhatsApp", "Ficha Cadastral"). */
+   A home tem dois sentidos de leitura: a faixa horizontal anda para o lado e o resto desce. */
+/* O lugar muda com o modo: no meio da parte vertical a dica cairia em cima
+   dos botões que a página centraliza. */
 .rolagem {
   position: fixed;
   bottom: calc(var(--wrapper-padd) * 1.4);
@@ -1114,16 +1007,13 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
   transition: transform .45s cubic-bezier(.22, 1, .36, 1);
 }
 
-/* Uma seta só, girada: para baixo é o desenho original; para o lado ela vira
-   um quarto de volta no sentido anti-horário e passa a apontar para a DIREITA,
-   que é para onde a leitura avança — o conteúdo é que corre para a esquerda,
-   mas quem lê está indo para a direita. */
+/* Uma seta só: em pé aponta para baixo, girada -90° aponta para a direita,
+   que é para onde a leitura avança. */
 .rolagem[data-direcao="baixo"] .rolagem__seta { transform: rotate(0deg); }
 .rolagem[data-direcao="lado"]  .rolagem__seta { transform: rotate(-90deg); }
 
-/* O empurrãozinho vai no sentido certo em cada caso: o translateY acontece
-   depois do rotate, ou seja, no eixo já girado — sempre para onde a ponta
-   da seta aponta. */
+/* O translateY vem depois do rotate, no eixo já girado: o empurrão sai sempre
+   para onde a ponta aponta. */
 .rolagem[data-direcao="baixo"] .rolagem__seta { animation: rolagem-desce 1.9s ease-in-out infinite; }
 .rolagem[data-direcao="lado"]  .rolagem__seta { animation: rolagem-lado 1.9s ease-in-out infinite; }
 
@@ -1149,27 +1039,12 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
   }
 }
 
-/* ==========================================================================
-   MOBILE
-   ==========================================================================
-   O tema dimensiona quase tudo a partir de `99.9vw` com colunas de largura
-   fixa, o que funciona enquanto a tela é larga e quebra quando não é: a
-   palavra não cabe na coluna e ou vaza, ou é hifenizada, ou some.
-
-   A regra geral aqui é uma só: **todo título de display tem um teto em vw**,
-   calculado para a palavra mais longa daquele bloco caber inteira. Como a
-   fonte é a mesma, a conta é sempre a mesma — nas capitulares da Juana cada
-   caractere ocupa ~0,64em, então uma palavra de N letras precisa de
-   N × 0,64 × font-size. Invertendo: font-size ≤ largura / (N × 0,64).
-
-   Os tetos abaixo saíram dessa conta, e cada um foi conferido medindo o
-   elemento em 320, 360, 390 e 414px. `min()` mantém o valor do tema quando a
-   tela é grande o bastante — o teto só entra quando faz falta. */
+/* --- MOBILE ---------------------------------------------------------------
+   Todo título de display tem teto em vw, calculado para a palavra mais longa
+   caber: font-size <= largura / (N letras x 0,64em). */
 @media (max-width: 950px) {
 
-  /* Uma coluna só. O tema divide os títulos do hero em duas colunas de
-     larguras fixas (2,25fr e 1,75fr de uma grade de 4), e "com procedência"
-     não cabia na segunda: quebrava em duas linhas e encostava na borda. */
+  /* Uma coluna só. */
   main .mod-scroll__intro__wrap-titles {
     grid-template-columns: 1fr;
     grid-gap: .1em 0;
@@ -1182,9 +1057,7 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
 
   main .mod-scroll__intro__title .splitline { white-space: normal; }
 
-  /* "TRANSPARÊNCIA" tem 13 letras: 13 × 0,64 = 8,3em. Numa tela de 390px a
-     coluna tem 351px, então o corpo não pode passar de 351/8,3 ≈ 42px, que é
-     10,4vw. Acima disso a palavra era hifenizada no meio. */
+  /* "TRANSPARÊNCIA" tem 13 letras: 13 × 0,64 = 8,3em. */
   main .mod-scroll__terms__term__title {
     font-size: min(3.3rem, 9.8vw);
     white-space: nowrap;
@@ -1192,9 +1065,7 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
     hyphens: none;
   }
 
-  /* As duas chamadas antes do rodapé, uma embaixo da outra. Lado a lado cada
-     cartão ficava com 176x76px e o conteúdo precisa de ~105px: ícone, título e
-     a linha de instrução ficavam cortados. */
+  /* As duas chamadas antes do rodapé, uma embaixo da outra. */
   main .mod-media--double { flex-wrap: wrap; }
 
   main .mod-media--double .mod-media__item--chamada { width: 100%; }
@@ -1225,11 +1096,7 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
   width: 100%;
 }
 
-/* Os sete logotipos são PNG colorido sobre transparência. O grayscale puro do
-   tema os deixava cinza-médio, quase invisíveis no preto; o brightness sobe o
-   conjunto sem achatá-lo. Silhueta chapada (brightness(0) invert(1)) não serve
-   aqui: transforma Ford e Land Rover em elipses sólidas, sem o lettering
-   interno. No hover volta a cor original. */
+/* Os sete logotipos são PNG colorido sobre transparência. */
 .marcas img {
   width: 2.6vw;
   min-width: 34px;
@@ -1245,13 +1112,7 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
 }
 
 /* --- assinatura do rodapé -------------------------------------------------
-   Substitui o lettering em SVG do tema original (marca de terceiros) pela
-   silhueta da marca sobre um wordmark tipográfico, os dois centralizados.
-
-   Saiu daqui o card com a foto de um veículo em destaque, que o tema colocava
-   em absolute à direita — por isso o wordmark era alinhado à esquerda e o
-   bloco tinha min-height: ele servia de moldura para esse card. Sem o card,
-   nada disso precisa continuar. */
+   Substitui o lettering em SVG do tema original (marca de terceiros) pela silhueta da marca sobre um wordmark tipográfico, os dois centralizados. */
 main .mod-footer__content { min-height: 0; }
 
 main .mod-footer__bg.mod-footer__wordmark {
@@ -1269,10 +1130,7 @@ main .mod-footer__bg.mod-footer__wordmark {
   user-select: none;
 }
 
-/* Mesmo PNG do hero: traço branco sobre retângulo preto opaco, apagado pelo
-   mix-blend-mode. As margens negativas fecham a folga preta que o arquivo tem
-   em volta do desenho — medida na imagem, sobra 25,9% no topo e 39,6% na base,
-   sobre uma altura que é 0,563 da largura. */
+/* Mesmo PNG do hero: traço branco sobre retângulo preto opaco, apagado pelo mix-blend-mode. */
 .mod-footer__marca {
   display: block;
   width: 44vw;
@@ -1296,9 +1154,7 @@ main .mod-footer__bg.mod-footer__wordmark {
   opacity: .45;
 }
 
-/* A assinatura da marca, fechando o conjunto silhueta + wordmark. O
-   letter-spacing largo é o que faz uma linha curta segurar a largura do
-   ARACAJU acima dela. */
+/* A assinatura da marca, fechando o conjunto silhueta + wordmark. */
 .mod-footer__wordmark__tag {
   display: block;
   margin-top: 1.6vw;
