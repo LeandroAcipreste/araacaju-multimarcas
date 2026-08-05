@@ -322,6 +322,16 @@ sentido do momento — "Role a página para o lado" com a seta deitada, "Role a
 página para baixo" com a seta em pé — e traz o ícone do mouse, porque quem
 manda nos dois casos é a rolagem.
 
+Na faixa horizontal a seta aponta para a **direita**: o conteúdo é que corre
+para a esquerda, mas quem lê está avançando para a direita, e é o avanço do
+leitor que a seta indica.
+
+**O aviso também é botão**: apertar avança uma tela. Quem não se dá bem com a
+rolagem do mouse chega ao fim do site clicando. Os dois sentidos são o mesmo
+gesto — a faixa horizontal é movida por rolagem vertical presa num pin, então
+avançar é sempre somar altura de tela à posição; o que muda é só o desenho da
+seta.
+
 Como o `rolagem.js` sabe em qual dos dois está: a faixa horizontal é um pin do
 ScrollTrigger; enquanto `window.scrollY` for menor que o `end` desse pin, o
 movimento na tela é lateral. O pin só nasce no `init()`, depois do preloader,

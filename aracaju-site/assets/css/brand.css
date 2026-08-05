@@ -1070,18 +1070,32 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   color: var(--tinta);
-  pointer-events: none;
-  transition: opacity .4s ease, transform .4s ease;
+  font: inherit;
+  cursor: pointer;
+  transition: opacity .4s ease, transform .4s ease, background-color .25s ease, border-color .25s ease;
 }
+
+.rolagem:hover,
+.rolagem:focus-visible {
+  background: rgba(0, 0, 0, .9);
+  border-color: rgba(255, 255, 255, .4);
+  outline: none;
+}
+
+.rolagem:active { transform: scale(.97); }
+.rolagem[data-direcao="lado"]:active { transform: translateX(-50%) scale(.97); }
 
 .rolagem[data-direcao="lado"] {
   left: 50%;
   transform: translateX(-50%);
 }
 
+/* Escondido é escondido: sem o pointer-events o botão continuaria clicável
+   por cima do rodapé, invisível. */
 .rolagem.is-fora {
   opacity: 0;
   transform: translateY(1rem);
+  pointer-events: none;
 }
 
 .rolagem[data-direcao="lado"].is-fora {
@@ -1101,12 +1115,15 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
 }
 
 /* Uma seta só, girada: para baixo é o desenho original; para o lado ela vira
-   um quarto de volta e passa a apontar para a esquerda, que é o sentido em que
-   a faixa horizontal caminha. */
+   um quarto de volta no sentido anti-horário e passa a apontar para a DIREITA,
+   que é para onde a leitura avança — o conteúdo é que corre para a esquerda,
+   mas quem lê está indo para a direita. */
 .rolagem[data-direcao="baixo"] .rolagem__seta { transform: rotate(0deg); }
-.rolagem[data-direcao="lado"]  .rolagem__seta { transform: rotate(90deg); }
+.rolagem[data-direcao="lado"]  .rolagem__seta { transform: rotate(-90deg); }
 
-/* O empurrãozinho vai no sentido certo em cada caso. */
+/* O empurrãozinho vai no sentido certo em cada caso: o translateY acontece
+   depois do rotate, ou seja, no eixo já girado — sempre para onde a ponta
+   da seta aponta. */
 .rolagem[data-direcao="baixo"] .rolagem__seta { animation: rolagem-desce 1.9s ease-in-out infinite; }
 .rolagem[data-direcao="lado"]  .rolagem__seta { animation: rolagem-lado 1.9s ease-in-out infinite; }
 
@@ -1116,8 +1133,8 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
 }
 
 @keyframes rolagem-lado {
-  0%, 60%, 100% { transform: rotate(90deg) translateY(0); }
-  30%           { transform: rotate(90deg) translateY(.28em); }
+  0%, 60%, 100% { transform: rotate(-90deg) translateY(0); }
+  30%           { transform: rotate(-90deg) translateY(.28em); }
 }
 
 @media (prefers-reduced-motion: reduce) {

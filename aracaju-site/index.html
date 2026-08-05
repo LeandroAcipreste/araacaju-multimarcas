@@ -105,12 +105,13 @@
 <!-- MENU -->
 </header>
 
-<!-- aviso de rolagem -->
-<div class="rolagem" data-direcao="lado" aria-hidden="true">
+<!-- aviso de rolagem: é instrução e é botão. Quem não quiser usar a rolagem
+     do mouse avança a página apertando aqui. -->
+<button class="rolagem" data-direcao="lado" type="button">
 <svg class="rolagem__mouse" aria-hidden="true"><use href="#i-mouse"></use></svg>
 <span class="rolagem__texto f-izmir t-subtitulo t-upper">Role a página para o lado</span>
 <svg class="rolagem__seta" aria-hidden="true"><use href="#i-seta"></use></svg>
-</div>
+</button>
 
 <!-- transition -->
 <div class="transition"></div>
@@ -529,16 +530,14 @@ Financiamento, troca e documentação resolvidos por quem atende Aracaju há ano
 </div>
 </div>
 </div>
-<a class="last-item__carousel__item last-item__carousel__item--link btn btn--bg btn--bg-inv btn--bg-blue bg-blue f-edit" href="https://wa.me/5579988197051">
-<svg class="last-item__carousel__item__arrow btn__image" height="25.815" viewbox="0 0 28 25.815" width="28" xmlns="http://www.w3.org/2000/svg">
-<g transform="translate(-7871.062 19814.479)">
-<path d="M16.962-.067H-1V-1H16.962Z" transform="translate(7881.317 -19813.479)"></path>
-<path d="M-.067,17.665H-1V-1h.933Z" transform="translate(7899.129 -19813.479)"></path>
-<path d="M-.045,24.641l-.633-.686L26.069-.735l.633.686Z" transform="translate(7871.74 -19813.305)"></path>
-</g>
-</svg>
-<span class="last-item__carousel__item__text t-titulo-l">Ver todos</span>
-</a>
+<!-- Saiu daqui o cartão "Ver todos": logo depois da faixa horizontal vem a
+     seção (Estoque) com todos os veículos, então ele mandava para onde a
+     pessoa já ia chegar de qualquer jeito.
+
+     O `numItem` do scroll.js conta os `.last-item__carousel__item` para
+     dimensionar o pin e o percurso vertical do carrossel — com um cartão a
+     menos a faixa fica proporcionalmente mais curta, que é o comportamento
+     correto: há menos coisa para mostrar. -->
 </div>
 
 <!-- fecho do último item -->

@@ -614,8 +614,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     { y: '-'+(heightItem*(numItem-2))+'vh', duration: 1, ease: 'none'},0)
                 lastProject_tl.from(lastProject_carousel_items,{ height: '66vh', duration: 1, ease: 'none'},0)
 
-                //move y carousel y lastProject_content 
-                lastProject_tl.to(lastProject_carousel,{ y: '-'+(heightItem*(numItem-3))+'vh', duration: .75, ease: 'none'},1)
+                //move y carousel y lastProject_content
+                // O tema contava com pelo menos três cartões aqui. Com dois — que
+                // é o caso desde que o "Ver todos" saiu — `numItem-3` fica
+                // negativo e a concatenação produz "--33.33vh", valor inválido
+                // que o GSAP não consegue ler. Sem mais cartões para subir, o
+                // certo é não subir nada.
+                lastProject_tl.to(lastProject_carousel,{ y: '-'+Math.max(0, heightItem*(numItem-3))+'vh', duration: .75, ease: 'none'},1)
                 lastProject_tl.to(lastProject_content,{ y: '-'+(heightItem*(numItem-1))+'vh', duration: .75, ease: 'none'},1)
                 lastProject_tl.to(lastProject_carousel_items,{ height: '37.5vh', duration: .75, ease: 'power1.inOut',
                     onStart: () => {
