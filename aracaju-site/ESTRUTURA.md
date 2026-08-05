@@ -314,6 +314,26 @@ porque o hero tem o menu vertical próprio.
 Agora o `header_btn_tl` toca junto com a página, em qualquer largura — como já
 era no mobile — e nada o esconde de volta (`scroll.js`).
 
+### Aviso de rolagem
+
+A home tem dois sentidos de leitura, e isso não é óbvio para quem não está
+acostumado com página que anda de lado. Um aviso fixo no pé da tela diz o
+sentido do momento — "Role a página para o lado" com a seta deitada, "Role a
+página para baixo" com a seta em pé — e traz o ícone do mouse, porque quem
+manda nos dois casos é a rolagem.
+
+Como o `rolagem.js` sabe em qual dos dois está: a faixa horizontal é um pin do
+ScrollTrigger; enquanto `window.scrollY` for menor que o `end` desse pin, o
+movimento na tela é lateral. O pin só nasce no `init()`, depois do preloader,
+então há uma espera curta que para assim que ele aparece — sem ela a primeira
+tela mostrava "para baixo", justamente a instrução errada na hora que mais
+importa.
+
+O lugar muda com o modo, porque o que está livre muda junto: na faixa
+horizontal o pé do meio da tela está vazio; na parte vertical é o canto
+esquerdo que sobra, já que o meio é onde a página centraliza os botões
+grandes. Some com modal aberto, com o menu aberto e perto do fim da página.
+
 ### Âncoras
 
 Links `#...` são interceptados pelo `estoque.js`. O motivo é o pin: a faixa

@@ -1042,6 +1042,92 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
   vertical-align: -.15em;
 }
 
+/* --- aviso de rolagem -----------------------------------------------------
+   A home tem dois sentidos de leitura: a faixa horizontal anda para o lado e
+   o resto desce. Quem não está acostumado com página que rola de lado trava
+   ali. O aviso fica preso no pé da tela dizendo o sentido do momento, com a
+   seta girando conforme o `data-direcao` que o rolagem.js escreve. */
+/* O lugar muda com o modo, porque o que está livre muda junto: na faixa
+   horizontal o pé do meio da tela está vazio, e na parte vertical é o canto
+   esquerdo que sobra — no meio dela a dica cairia em cima dos botões grandes
+   que a página centraliza ("Falar no WhatsApp", "Ficha Cadastral"). */
+.rolagem {
+  position: fixed;
+  bottom: calc(var(--wrapper-padd) * 1.4);
+  left: var(--wrapper-padd);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .55rem 1.1rem;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 2em;
+  background: rgba(0, 0, 0, .72);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: var(--tinta);
+  pointer-events: none;
+  transition: opacity .4s ease, transform .4s ease;
+}
+
+.rolagem[data-direcao="lado"] {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.rolagem.is-fora {
+  opacity: 0;
+  transform: translateY(1rem);
+}
+
+.rolagem[data-direcao="lado"].is-fora {
+  transform: translateX(-50%) translateY(1rem);
+}
+
+.rolagem__mouse {
+  width: .9em;
+  height: 1.35em;
+  opacity: .55;
+}
+
+.rolagem__seta {
+  width: 1.15em;
+  height: 1.15em;
+  transition: transform .45s cubic-bezier(.22, 1, .36, 1);
+}
+
+/* Uma seta só, girada: para baixo é o desenho original; para o lado ela vira
+   um quarto de volta e passa a apontar para a esquerda, que é o sentido em que
+   a faixa horizontal caminha. */
+.rolagem[data-direcao="baixo"] .rolagem__seta { transform: rotate(0deg); }
+.rolagem[data-direcao="lado"]  .rolagem__seta { transform: rotate(90deg); }
+
+/* O empurrãozinho vai no sentido certo em cada caso. */
+.rolagem[data-direcao="baixo"] .rolagem__seta { animation: rolagem-desce 1.9s ease-in-out infinite; }
+.rolagem[data-direcao="lado"]  .rolagem__seta { animation: rolagem-lado 1.9s ease-in-out infinite; }
+
+@keyframes rolagem-desce {
+  0%, 60%, 100% { transform: rotate(0deg) translateY(0); }
+  30%           { transform: rotate(0deg) translateY(.28em); }
+}
+
+@keyframes rolagem-lado {
+  0%, 60%, 100% { transform: rotate(90deg) translateY(0); }
+  30%           { transform: rotate(90deg) translateY(.28em); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rolagem__seta { animation: none; }
+}
+
+@media (max-width: 560px) {
+  .rolagem {
+    gap: .45rem;
+    padding: .45rem .85rem;
+    bottom: calc(var(--wrapper-padd) * 1.1);
+  }
+}
+
 /* --- faixa de marcas ------------------------------------------------------ */
 .marcas {
   display: flex;
