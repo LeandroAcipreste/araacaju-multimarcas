@@ -62,10 +62,6 @@
 <div class="logo__boring">marcas<div class="reg">®</div></div>
 </div>
 </div>
-<!-- btn menu -->
-<a class="header__btn btn btn--menu btn--header btn--bg f-edit t-parrafo-l">
-<span><span>Menu</span></span>
-</a>
 <a class="header__footer__btn btn--header btn btn--bg f-edit t-parrafo-l d-none">
 <span>
 <span>
@@ -78,6 +74,14 @@
 <div class="header__percent loader__percent f-edit-reg t-titulo-xxl">100%</div>
 <div class="header__progress loader__progress" style="--progress: 100%;"></div>
 </div>
+
+<!-- btn menu — fora do .header de propósito: aquele bloco inteiro está em
+     mix-blend-mode: difference, e um filho não escapa do blend do pai. Dentro
+     dele a pílula nunca seria pérola de verdade; era a diferença entre a cor
+     dela e o que passasse por trás. -->
+<a class="header__btn btn btn--menu btn--header btn--bg f-edit t-parrafo-l">
+<span><span>Menu</span></span>
+</a>
 
 <!-- MENU — faixa lateral que entra pela direita -->
 <div class="header__menu c-black d-none">

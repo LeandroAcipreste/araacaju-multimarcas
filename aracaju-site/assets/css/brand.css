@@ -88,16 +88,35 @@ header .header__menu__nav-site {
 
 header .header__menu__nav-site li { white-space: nowrap; }
 
-/* Com o menu aberto o botão é só um X: sem pílula, sem borda, sem a mancha de
-   hover. A classe entra e sai no menu_tl (clicks.js), junto com a troca do
-   texto. O filter: invert(100%) do tema continua valendo, então o X precisa
-   ser preto no CSS para sair branco na tela. */
+/* --- botão do menu --------------------------------------------------------
+   O tema pendurava um `filter: invert(100%)` neste botão para ele se defender
+   sozinho de seções claras. A página aqui é toda escura, então o filtro só
+   fazia ele aparecer ao contrário de todos os outros botões do site: escuro
+   com texto claro, enquanto "Falar no WhatsApp" e companhia são pérola com
+   texto preto. Sem o filtro, o `.btn--bg` já entrega o certo — pérola com
+   "Menu" em preto — e a cor declarada no CSS é a que aparece na tela.
+
+   Só a mancha de hover precisa de ajuste: o tema a pintava de branco (contando
+   com a inversão). Preta, ela cobre a pílula clara e o texto vira pérola pelo
+   rollovers.js, que é o mesmo hover dos outros botões. */
+/* O botão saiu de dentro do .header (ver comentário no index.html), então ele
+   perdeu o pai fixo que o segurava no canto: passa a ser fixed por conta
+   própria, nas mesmas coordenadas. */
+header .header__btn {
+  position: fixed;
+  filter: none;
+}
+
+header .header__btn::before { background: var(--papel); }
+
+/* Com o menu aberto o botão é só um X: sem pílula, sem borda, sem mancha. A
+   classe entra e sai no menu_tl (clicks.js), junto com a troca do texto. */
 header .header__btn.is-x {
   width: auto;
   padding: 0;
   border: 0;
   background: none;
-  color: #000;
+  color: var(--tinta);
   font-size: var(--titulo);
   line-height: 1;
 }
