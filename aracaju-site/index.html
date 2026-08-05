@@ -185,10 +185,16 @@
 <div class="mod-scroll__text__section mod-scroll__section t-parrafo-l f-edit">Nós</div>
 <div class="mod-scroll__text__wrap-text">
 <div class="mod-scroll__text__title t-supertitulo f-regular">
-<div class="mod-scroll__text__title__line line t-title-ls t-upper col-12 align-left t-left"><span class="cont">Cada carro</span></div>
-<div class="mod-scroll__text__title__line line t-title-ls t-upper col-12 align-left t-left"><span class="cont">com <span></span><span></span><span></span><span></span> história</span></div>
-<div class="mod-scroll__text__title__line line t-title-ls t-upper col-12 align-left t-left"><span class="cont">conferida</span></div>
-<div class="mod-scroll__text__title__line line t-title-ls t-upper col-12 align-left t-right"><span class="cont" style="left: -350px;">antes da chave</span></div>
+<!-- Texto puro nas linhas: o scroll.js embrulha cada uma num <span class="cont">
+     e é ele que anima o `left` da última. O snapshot de origem já trazia esses
+     spans prontos e com `left: -350px` congelado no meio da animação — o JS
+     embrulhava por cima do que já estava embrulhado e, no mobile, onde a faixa
+     horizontal não corre, o deslocamento nunca era desfeito: "antes da chave"
+     ficava 350px fora da tela. -->
+<div class="mod-scroll__text__title__line line t-title-ls t-upper col-12 align-left t-left">Cada carro</div>
+<div class="mod-scroll__text__title__line line t-title-ls t-upper col-12 align-left t-left">com <span></span><span></span><span></span><span></span> história</div>
+<div class="mod-scroll__text__title__line line t-title-ls t-upper col-12 align-left t-left">conferida</div>
+<div class="mod-scroll__text__title__line line t-title-ls t-upper col-12 align-left t-right">antes da chave</div>
 </div>
 <div class="mod-scroll__text__text f-izmir t-parrafo">
 <p>Nada entra na loja sem passar por checagem de documentação, histórico e estado real de conservação. Compra, venda, troca e financiamento. Do primeiro contato à transferência, você fala sempre com quem responde pelo carro. Nosso propósito é tornar a compra do seu veículo uma experiência segura e tranquila.</p>
@@ -637,7 +643,7 @@ Financiamento, troca e documentação resolvidos por quem atende Aracaju há ano
 
 <section class="mod-media mod-media--double bg-beige c-black none pb-xs wrapper">
 <div class="media mod-media__item mod-media__item--chamada col-6" data-delay="" style="--clipPath: 0% 0% 0% 0%; --transY: 100%;">
-<div class="media__wrap-source image" style="aspect-ratio: 944 / 406">
+<div class="media__wrap-source image">
 <img alt="" class="media__source w-100" src="assets/img/site/ficha-cadastral.jpg"/>
 <a class="chamada" href="contacto">
 <img alt="" class="chamada__icone" height="40" src="assets/img/ui/icon-ficha.svg" width="40"/>
@@ -647,7 +653,7 @@ Financiamento, troca e documentação resolvidos por quem atende Aracaju há ano
 </div>
 </div>
 <div class="media mod-media__item mod-media__item--chamada col-6" data-delay="0.2" style="--clipPath: 0% 0% 0% 0%; --transY: 100%;">
-<div class="media__wrap-source image" style="aspect-ratio: 944 / 406">
+<div class="media__wrap-source image">
 <img alt="" class="media__source w-100" src="assets/img/site/venda-seu-carro.jpg"/>
 <a class="chamada" href="vender">
 <img alt="" class="chamada__icone" height="40" src="assets/img/ui/icon-vender.svg" width="40"/>

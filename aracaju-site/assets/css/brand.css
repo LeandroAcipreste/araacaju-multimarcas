@@ -888,6 +888,10 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
   object-fit: cover;
 }
 
+/* A proporção mora aqui, e não num `style=` no HTML, para poder mudar no
+   mobile — inline ela ganharia de qualquer media query. */
+.mod-media__item--chamada .media__wrap-source { aspect-ratio: 944 / 406; }
+
 .chamada {
   position: absolute;
   inset: 0;
@@ -1126,6 +1130,72 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
     padding: .45rem .85rem;
     bottom: calc(var(--wrapper-padd) * 1.1);
   }
+}
+
+/* ==========================================================================
+   MOBILE
+   ==========================================================================
+   O tema dimensiona quase tudo a partir de `99.9vw` com colunas de largura
+   fixa, o que funciona enquanto a tela é larga e quebra quando não é: a
+   palavra não cabe na coluna e ou vaza, ou é hifenizada, ou some.
+
+   A regra geral aqui é uma só: **todo título de display tem um teto em vw**,
+   calculado para a palavra mais longa daquele bloco caber inteira. Como a
+   fonte é a mesma, a conta é sempre a mesma — nas capitulares da Juana cada
+   caractere ocupa ~0,64em, então uma palavra de N letras precisa de
+   N × 0,64 × font-size. Invertendo: font-size ≤ largura / (N × 0,64).
+
+   Os tetos abaixo saíram dessa conta, e cada um foi conferido medindo o
+   elemento em 320, 360, 390 e 414px. `min()` mantém o valor do tema quando a
+   tela é grande o bastante — o teto só entra quando faz falta. */
+@media (max-width: 950px) {
+
+  /* Uma coluna só. O tema divide os títulos do hero em duas colunas de
+     larguras fixas (2,25fr e 1,75fr de uma grade de 4), e "com procedência"
+     não cabia na segunda: quebrava em duas linhas e encostava na borda. */
+  main .mod-scroll__intro__wrap-titles {
+    grid-template-columns: 1fr;
+    grid-gap: .1em 0;
+  }
+
+  main .mod-scroll__intro__title {
+    white-space: normal;
+    font-size: min(1.45rem, 6.4vw);
+  }
+
+  main .mod-scroll__intro__title .splitline { white-space: normal; }
+
+  /* "TRANSPARÊNCIA" tem 13 letras: 13 × 0,64 = 8,3em. Numa tela de 390px a
+     coluna tem 351px, então o corpo não pode passar de 351/8,3 ≈ 42px, que é
+     10,4vw. Acima disso a palavra era hifenizada no meio. */
+  main .mod-scroll__terms__term__title {
+    font-size: min(3.3rem, 9.8vw);
+    white-space: nowrap;
+    -webkit-hyphens: none;
+    hyphens: none;
+  }
+
+  /* As duas chamadas antes do rodapé, uma embaixo da outra. Lado a lado cada
+     cartão ficava com 176x76px e o conteúdo precisa de ~105px: ícone, título e
+     a linha de instrução ficavam cortados. */
+  main .mod-media--double { flex-wrap: wrap; }
+
+  main .mod-media--double .mod-media__item--chamada { width: 100%; }
+
+  .mod-media__item--chamada .media__wrap-source { aspect-ratio: 16 / 7; }
+
+  .filtros__buscar { text-align: center; }
+}
+
+/* Nenhuma palavra hifenizada no meio, em nenhum título — se não couber, o
+   teto em vw acima é que tem de baixar. */
+.anima__title,
+.mod-scroll__terms__term__title,
+.mod-scroll__text__title,
+.last-item__content__title,
+.mod-title--lines .line {
+  -webkit-hyphens: none;
+  hyphens: none;
 }
 
 /* --- faixa de marcas ------------------------------------------------------ */

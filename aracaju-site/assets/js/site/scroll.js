@@ -72,21 +72,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     el.innerHTML = '<span class="cont">'+content+'</span>';
                 })
 
-                const posInitLeft = lines[3].querySelector('span.cont').offsetWidth - lines[3].offsetWidth;
-                const title_tl = gsap.timeline({paused:true})
-                title_tl.from(lines[3].querySelector('span.cont'),
-                    {left: posInitLeft, duration: 2, ease: 'power1.inOut'},0)
+                // A última linha desliza para dentro conforme a faixa horizontal
+                // corre. No mobile não há faixa horizontal: o ScrollTrigger
+                // depende de `containerAnimation: scroll_tl`, que ali não
+                // existe, então a tween ficava presa no estado inicial e a
+                // linha ficava estacionada fora da tela.
+                if(!is_mobile){
+                    const posInitLeft = lines[3].querySelector('span.cont').offsetWidth - lines[3].offsetWidth;
+                    const title_tl = gsap.timeline({paused:true})
+                    title_tl.from(lines[3].querySelector('span.cont'),
+                        {left: posInitLeft, duration: 2, ease: 'power1.inOut'},0)
 
-                const textTrigger = ScrollTrigger.create({
-                    containerAnimation: scroll_tl,
-                    animation: title_tl,
-                    trigger: elem,
-                    start: "0% 50%",
-                    end: "100% 50%",
-                    scrub: 0,
-                    // toggleActions: 'play none none reverse',
-                    // markers: true,
-                })
+                    ScrollTrigger.create({
+                        containerAnimation: scroll_tl,
+                        animation: title_tl,
+                        trigger: elem,
+                        start: "0% 50%",
+                        end: "100% 50%",
+                        scrub: 0,
+                        // toggleActions: 'play none none reverse',
+                        // markers: true,
+                    })
+                }
 
             })
 

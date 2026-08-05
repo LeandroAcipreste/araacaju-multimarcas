@@ -345,6 +345,49 @@ rolagem assenta.
 A ligação é por **delegação no `document`**, não por listener em cada `<a>`: o
 `setLink()` reescreve o innerHTML dos itens de menu e recria os links.
 
+## Mobile
+
+O tema dimensiona quase tudo a partir de `99.9vw` com colunas de largura fixa.
+Isso funciona enquanto a tela é larga e quebra quando não é: a palavra não cabe
+na coluna e ou vaza, ou é hifenizada no meio, ou some da tela.
+
+A regra geral do `brand.css` é uma só: **todo título de display tem um teto em
+vw**, calculado para a palavra mais longa daquele bloco caber inteira. Como a
+fonte é a mesma, a conta é sempre a mesma — nas capitulares da Juana cada
+caractere ocupa ~0,64em, então uma palavra de N letras precisa de
+`N × 0,64 × font-size`. Invertendo: `font-size ≤ largura / (N × 0,64)`. O
+`min()` mantém o valor do tema quando a tela é grande o bastante; o teto só
+entra quando faz falta.
+
+Exemplo: "TRANSPARÊNCIA" tem 13 letras (8,3em). Numa tela de 390px a coluna tem
+351px, então o corpo não pode passar de `351/8,3 ≈ 42px`, que é 10,4vw — daí o
+`min(3.3rem, 9.8vw)` do bloco de termos, com folga.
+
+O que mais mudou no mobile:
+
+- **títulos do hero** em uma coluna só. O tema os divide em duas colunas de
+  larguras fixas e "com procedência" não cabia na segunda.
+- **as duas chamadas antes do rodapé** empilhadas. Lado a lado cada cartão
+  ficava com 176x76px e o conteúdo precisa de ~105px: ícone, título e a linha
+  de instrução ficavam cortados. A proporção saiu do `style=` inline do HTML
+  para o CSS — inline ela ganharia de qualquer media query.
+- **texto do botão Buscar** centralizado (vinha `text-align: start`).
+
+### Outra armadilha do DOM serializado
+
+O bloco "Cada carro com história conferida **antes da chave**" vinha do
+snapshot com as linhas já embrulhadas em `<span class="cont">` e a última com
+`style="left: -350px"` — um quadro de animação congelado no momento em que a
+página foi salva. Dois estragos de uma vez: o `scroll.js` embrulhava por cima
+do que já estava embrulhado, e no mobile, onde a faixa horizontal não corre, o
+ScrollTrigger que desfaria o deslocamento nunca rodava — a frase ficava 350px
+fora da tela, para sempre.
+
+O conserto é o mesmo de sempre por aqui: **texto puro na marcação**, deixando o
+JS montar o que é dele. O deslize da última linha também passou a ser só de
+desktop, já que depende de `containerAnimation: scroll_tl`, que no mobile não
+existe.
+
 ## Cuidado ao editar os menus
 
 O `setRolloversMenu()` (em `rollovers.js`) **constrói** o menu no load: divide o
