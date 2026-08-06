@@ -18,9 +18,10 @@
 (function () {
   'use strict';
 
+  // Mesmo texto nos dois sentidos: quem diz o sentido é a seta.
   var TEXTOS = {
-    lado: 'Role a página para o lado',
-    baixo: 'Role a página para baixo'
+    lado: 'Role o scroll ou clique aqui',
+    baixo: 'Role o scroll ou clique aqui'
   };
 
   document.addEventListener('DOMContentLoaded', function () {

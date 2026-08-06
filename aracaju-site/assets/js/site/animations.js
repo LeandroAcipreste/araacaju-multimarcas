@@ -365,7 +365,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             animation: title_tl,
                             trigger: elem.querySelector('.anima__title'),
                             start: "top 80%",
-                            // toggleActions: 'play none none reverse',
+                            // Sem toggleActions o padrão é tocar uma vez e nunca
+                            // mais. Aqui entra descendo, sai por cima, e volta a
+                            // entrar quando a rolagem sobe.
+                            toggleActions: 'play reverse play reverse',
                             // markers: true,
                         })
 
@@ -611,6 +614,32 @@ document.addEventListener('DOMContentLoaded', () => {
             
         }
 
+        //anima mod-title--lines
+        // As linhas acendem conforme a rolagem, do quase-apagado até a tinta
+        // cheia — o mesmo efeito do texto da faixa horizontal. O tema marcava
+        // esta seção com `no-anim` e a deixava parada.
+        document.querySelectorAll('.mod-title--lines').forEach( elem => {
+
+            const linhas = elem.querySelectorAll('.line');
+            if(!linhas.length) return;
+
+            const acende_tl = gsap.timeline({paused:true})
+            acende_tl.from(linhas,{
+                opacity: .18,
+                duration: is_mobile ? .6 : .4,
+                stagger: is_mobile ? .4 : .25
+            })
+
+            ScrollTrigger.create({
+                animation: acende_tl,
+                trigger: elem,
+                start: 'top 85%',
+                end: 'bottom 45%',
+                scrub: is_mobile ? 1.2 : .6,
+            })
+
+        })
+
         //anima footer
         if(document.querySelectorAll('.mod-footer').length > 0){
 
@@ -643,6 +672,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
     
+                ///entrada e saída da assinatura do rodapé
+                // A assinatura daqui (silhueta + wordmark + Compra·Vende·Troca·
+                // Financia) não existia no tema, então não tinha animação
+                // nenhuma. toggleActions com reverse nas duas pontas dá entrada
+                // ao chegar e saída ao deixar a seção.
+                // O carro entra da direita para a esquerda, ARACAJU da esquerda
+                // para a direita, e o resto sobe.
+                const assinatura = [
+                    ['.mod-footer__buttons-header',   0,   { y: '30%' }],
+                    ['.mod-footer__marca',            .1,  { x: '38%' }],
+                    ['.mod-footer__wordmark__top',    .22, { x: '-38%' }],
+                    ['.mod-footer__wordmark__bottom', .32, { y: '60%' }],
+                    ['.mod-footer__wordmark__tag',    .4,  { y: '90%' }],
+                    ['.mod-footer__footer',           .48, { y: '35%' }],
+                ].map(p => [elem.querySelector(p[0]), p[1], p[2]]).filter(p => p[0]);
+
+                if(assinatura.length){
+                    const assinatura_tl = gsap.timeline({paused:true})
+                    assinatura.forEach(([alvo, quando, de]) => {
+                        assinatura_tl.from(alvo, Object.assign({opacity: 0, duration: 1, ease: 'power3.out'}, de), quando)
+                    })
+
+                    ScrollTrigger.create({
+                        animation: assinatura_tl,
+                        trigger: elem,
+                        start: 'top 85%',
+                        end: 'bottom 55%',
+                        toggleActions: 'play reverse play reverse',
+                    })
+                }
+
                 ///footer__project
                 // O rodapé daqui não tem o card de veículo em destaque do tema:
                 // a assinatura é só a silhueta com o wordmark. Sem esta guarda o

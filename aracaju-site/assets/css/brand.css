@@ -98,9 +98,29 @@ header .header__btn.is-x::before { display: none; }
   }
 }
 
-/* Único bloco que continua claro: o fecho amarelo. Texto preto nele. */
 .bg-amarelo.c-black,
 .bg-amarelo .c-black { color: #000; }
+
+/* O fecho da faixa era um painel amarelo de 150vw. Como a faixa entra pela
+   direita, o que aparecia era uma tira amarela vertical na lateral do painel
+   preto. O amarelo virou uma faixa no pé do painel: some da lateral e continua
+   fechando o trecho. */
+main .mod-scroll__cierre {
+  position: relative;
+  background: var(--papel);
+  color: var(--tinta);
+}
+
+main .mod-scroll__cierre::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  height: 14vh;
+  background: var(--amarelo);
+}
 
 /* Asteriscos da faixa "SEMINOVOS": são <img> de um SVG com fill=currentColor,
    e currentColor dentro de <img> não herda — resolve para preto. */
@@ -1041,12 +1061,9 @@ main .mod-scroll {
   .rolagem__seta { animation: none; }
 }
 
-@media (max-width: 560px) {
-  .rolagem {
-    gap: .45rem;
-    padding: .45rem .85rem;
-    bottom: calc(var(--wrapper-padd) * 1.1);
-  }
+/* No celular a rolagem já é o gesto natural: o aviso só ocuparia tela. */
+@media (max-width: 950px) {
+  .rolagem { display: none; }
 }
 
 /* --- MOBILE ---------------------------------------------------------------
@@ -1131,6 +1148,11 @@ main .mod-scroll {
 .marcas img:hover {
   filter: none;
   opacity: 1;
+}
+
+/* O menu do rodapé sobe 10px no desktop. */
+@media (min-width: 951px) {
+  main .mod-footer__footer__legal { top: calc(55% - 10px); }
 }
 
 /* --- assinatura do rodapé -------------------------------------------------

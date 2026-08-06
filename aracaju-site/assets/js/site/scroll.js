@@ -72,28 +72,33 @@ document.addEventListener('DOMContentLoaded', () => {
                     el.innerHTML = '<span class="cont">'+content+'</span>';
                 })
 
-                // A última linha desliza para dentro conforme a faixa horizontal
-                // corre. No mobile não há faixa horizontal: o ScrollTrigger
-                // depende de `containerAnimation: scroll_tl`, que ali não
-                // existe, então a tween ficava presa no estado inicial e a
-                // linha ficava estacionada fora da tela.
-                if(!is_mobile){
-                    const posInitLeft = lines[3].querySelector('span.cont').offsetWidth - lines[3].offsetWidth;
-                    const title_tl = gsap.timeline({paused:true})
-                    title_tl.from(lines[3].querySelector('span.cont'),
-                        {left: posInitLeft, duration: 2, ease: 'power1.inOut'},0)
+                // A última linha entra deslizando da esquerda para a direita.
+                // No desktop quem move é a faixa horizontal (containerAnimation);
+                // no mobile a faixa não corre, então o gatilho é a própria
+                // rolagem vertical, com scrub para acompanhar o dedo.
+                const cont = lines[3].querySelector('span.cont');
+                const title_tl = gsap.timeline({paused:true})
 
-                    ScrollTrigger.create({
-                        containerAnimation: scroll_tl,
-                        animation: title_tl,
-                        trigger: elem,
-                        start: "0% 50%",
-                        end: "100% 50%",
-                        scrub: 0,
-                        // toggleActions: 'play none none reverse',
-                        // markers: true,
-                    })
+                if(is_mobile){
+                    // A conta do desktop (largura do texto menos a da linha) dá
+                    // quase zero aqui, porque "antes da chave" ocupa a linha
+                    // inteira numa tela estreita — o deslocamento saía invisível.
+                    // Percentual da própria palavra garante o percurso.
+                    title_tl.from(cont, {xPercent: -70, duration: 2, ease: 'power1.inOut'},0)
+                }else{
+                    const posInitLeft = cont.offsetWidth - lines[3].offsetWidth;
+                    title_tl.from(cont, {left: posInitLeft, duration: 2, ease: 'power1.inOut'},0)
                 }
+
+                const gatilhoTitulo = {
+                    animation: title_tl,
+                    trigger: elem,
+                    start: is_mobile ? "top 85%" : "0% 50%",
+                    end: is_mobile ? "bottom 45%" : "100% 50%",
+                    scrub: is_mobile ? .8 : 0,
+                };
+                if(!is_mobile) gatilhoTitulo.containerAnimation = scroll_tl;
+                ScrollTrigger.create(gatilhoTitulo)
 
             })
 
@@ -107,19 +112,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 const imagesText = elem.querySelector('.mod-scroll__images-text__text p');
                 const spliText = new SplitText(imagesText,{type: "lines"})
 
+                // No mobile as linhas acendiam quase de uma vez: o percurso do
+                // gatilho era curto e o scrub, imediato. Aqui a duração e o
+                // intervalo entre linhas crescem, e o scrub ganha inércia.
                 const imagesText_tl = gsap.timeline({paused:true})
-                imagesText_tl.from(spliText.lines,{opacity:.2, duration:.2, stagger: .1})
+                imagesText_tl.from(spliText.lines,{
+                    opacity:.2,
+                    duration: is_mobile ? .6 : .2,
+                    stagger: is_mobile ? .4 : .1
+                })
 
-                ScrollTrigger.create({
-                    containerAnimation: scroll_tl,
+                const gatilhoTexto = {
                     animation: imagesText_tl,
                     trigger: imagesText,
-                    start: "0% 75%",
-                    end: "0% 25%",
-                    scrub: 0,
-                    // toggleActions: 'play none none reverse',
-                    // markers: true,
-                })
+                    start: is_mobile ? "top 90%" : "0% 75%",
+                    end: is_mobile ? "bottom 35%" : "0% 25%",
+                    scrub: is_mobile ? 1.2 : 0,
+                };
+                if(!is_mobile) gatilhoTexto.containerAnimation = scroll_tl;
+                ScrollTrigger.create(gatilhoTexto)
 
             })
 
