@@ -184,6 +184,15 @@ main .mod-scroll__intro__marca__tag i {
 main .mod-scroll__projects .last-item__content__wrap { width: 100%; }
 main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
 
+/* A faixa horizontal vira uma camada só. Os z-index de dentro dela (o fecho
+   tem 15) escapavam e pintavam por cima das seções seguintes; isolate os
+   prende ali dentro, e o que vem depois no HTML cobre a faixa normalmente. */
+main .mod-scroll {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+}
+
 /* --- ficha rápida do veículo --------------------------------------------- */
 .veiculo__specs {
   display: flex;
@@ -322,6 +331,7 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
 .filtros__marcas {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: .6rem;
   margin-bottom: 1.4rem;
 }
@@ -1073,6 +1083,18 @@ main .mod-scroll__projects .last-item__content__title .line { width: 100%; }
   .mod-media__item--chamada .media__wrap-source { aspect-ratio: 16 / 7; }
 
   .filtros__buscar { text-align: center; }
+
+  /* A caixa da foto é uma janela retrato (62svh) e a foto é deitada (4:3): com
+     `cover` sobrava um talho no meio do carro. `contain` encaixa a foto
+     inteira dentro da mesma caixa, sem mexer em altura nenhuma — o resto do
+     item continua exatamente como o tema desenhou. */
+  main .mod-scroll__projects__item__image .media__source {
+    position: relative;
+    top: 0;
+    height: 100%;
+    transform: none;
+    object-fit: contain;
+  }
 }
 
 /* Nenhuma palavra hifenizada no meio, em nenhum título — se não couber, o
