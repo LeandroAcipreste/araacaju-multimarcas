@@ -73,6 +73,7 @@ header .header__btn {
   filter: none;
 }
 
+
 header .header__btn::before { background: var(--papel); }
 
 /* Com o menu aberto o botão é só um X: sem pílula, sem borda, sem mancha. A
@@ -102,24 +103,28 @@ header .header__btn.is-x::before { display: none; }
 .bg-amarelo .c-black { color: #000; }
 
 /* O fecho da faixa era um painel amarelo de 150vw. Como a faixa entra pela
-   direita, o que aparecia era uma tira amarela vertical na lateral do painel
-   preto. O amarelo virou uma faixa no pé do painel: some da lateral e continua
-   fechando o trecho. */
+   direita, dele só se via uma tira amarela vertical colada no painel preto.
+   O painel ficou preto e o amarelo virou a faixa do rodapé do painel de texto,
+   logo abaixo. */
 main .mod-scroll__cierre {
   position: relative;
   background: var(--papel);
   color: var(--tinta);
 }
 
-main .mod-scroll__cierre::after {
-  content: "";
+/* Faixa amarela no pé do painel "Quem disse que seminovo…", de ponta a ponta.
+   Sobe de baixo para cima — o `y` sai de 100% no scroll.js, junto com a
+   entrada do texto. */
+main .last-item__content__faixa {
   position: absolute;
   right: 0;
   bottom: 0;
   left: 0;
   z-index: 0;
-  height: 14vh;
+  height: 9vh;
   background: var(--amarelo);
+  transform: translateY(100%);
+  pointer-events: none;
 }
 
 /* Asteriscos da faixa "SEMINOVOS": são <img> de um SVG com fill=currentColor,
@@ -127,7 +132,6 @@ main .mod-scroll__cierre::after {
 .mod-scroll__carousel__image { filter: invert(1); }
 
 .bg-amarelo { background-color: var(--amarelo); }
-.c-amarelo  { color: var(--amarelo); }
 
 /* --- logotipo -------------------------------------------------------------
    O tema usa três blocos (normal / is / boring). */
@@ -148,11 +152,18 @@ main .mod-scroll__intro__marca {
   /* espaço suficiente para a assinatura não encostar no copyright, que fica
      preso em bottom: var(--wrapper-padd) no canto esquerdo */
   bottom: calc(var(--wrapper-padd) * 3.2);
+  /* vem depois do texto no HTML, então sem isto pintava por cima dele */
+  z-index: 0;
   width: 62%;
   max-width: 46rem;
   pointer-events: none;
   -webkit-user-select: none;
   user-select: none;
+}
+
+main .mod-scroll__intro__content {
+  position: relative;
+  z-index: 1;
 }
 
 main .mod-scroll__intro__marca img {
@@ -199,6 +210,18 @@ main .mod-scroll__intro__marca__tag i {
   main .mod-scroll__intro .wrapper { width: 80vw; }
 }
 
+/* As linhas do título são recortadas em .clip-y para as letras entrarem de
+   fora, e o line-height é 0.9: a caixa fica menor que os glifos e comia o pé
+   do texto — a barriga do "Q" e a inclinação do CONFIA em itálico. O padding
+   aumenta a área do recorte e a margem negativa devolve o espaço, então o
+   layout não muda. */
+main .mod-scroll__intro__title .splitline {
+  padding-top: .06em;
+  margin-top: -.06em;
+  padding-bottom: .18em;
+  margin-bottom: -.18em;
+}
+
 /* --- fecho do último veículo ("Quem disse que seminovo…") ------------------
    O scroll.js anima a largura do painel; o texto tem de acompanhar. */
 main .mod-scroll__projects .last-item__content__wrap { width: 100%; }
@@ -211,15 +234,6 @@ main .mod-scroll {
   position: relative;
   z-index: 0;
   isolation: isolate;
-}
-
-/* --- ficha rápida do veículo --------------------------------------------- */
-.veiculo__specs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .35em 1.2em;
-  margin-top: .4em;
-  opacity: .65;
 }
 
 .veiculo__preco { display: block; }
@@ -447,6 +461,9 @@ main .mod-scroll {
 
 .filtros__buscar {
   flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-width: 10rem;
   height: 3rem;
   padding: 0 2rem;
@@ -1098,8 +1115,6 @@ main .mod-scroll {
   main .mod-media--double .mod-media__item--chamada { width: 100%; }
 
   .mod-media__item--chamada .media__wrap-source { aspect-ratio: 16 / 7; }
-
-  .filtros__buscar { text-align: center; }
 
   /* A caixa da foto é uma janela retrato (62svh) e a foto é deitada (4:3): com
      `cover` sobrava um talho no meio do carro. `contain` encaixa a foto

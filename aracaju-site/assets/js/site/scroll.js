@@ -45,16 +45,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
             }
 
-            // O botão do menu entra junto com a página, em qualquer largura.
-            //
-            // No tema ele só era revelado por este ScrollTrigger, depois que a
-            // faixa horizontal passava de 125% — e voltava a se esconder no
-            // onEnterBack. Ou seja: na primeira tela do site não existia botão
-            // de menu nenhum, e quem clicava onde ele costuma ficar não
-            // apertava coisa alguma. O tema podia se dar a esse luxo porque o
-            // hero tem o menu vertical próprio; aqui o botão fica sempre à mão.
-            // (No mobile já era assim.)
-            header_btn_tl.timeScale(1).play()
+            // O botão do menu e o aviso de rolagem entram no fim da
+            // apresentação do hero, e não neste ScrollTrigger: quem os chama é
+            // a própria scroll_intro_tl, lá embaixo. No tema eles só apareciam
+            // depois que a faixa horizontal passava de 125%, o que deixava a
+            // primeira tela sem botão de menu nenhum.
 
         }
         
@@ -266,10 +261,17 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             lastProject_content_tl.from('.last-item__content__section',{opacity: 0, y:'100%', duration: .33})
             document.querySelectorAll('.last-item__content__title .line').forEach( (el,ind) => {
-                const posInit = (ind%2!=0) ? '-110%' : '110%';
+                // 140% pelo mesmo motivo dos títulos do hero: com 110% as
+                // pontas das letras apareciam antes da hora, acima do recorte.
+                const posInit = (ind%2!=0) ? '-140%' : '140%';
                 lastProject_content_tl.from(el.querySelectorAll('.char'),{y:posInit, duration: .65, stagger: 0.03, ease: 'power3.out'},"<+=.2")
             } )
-            lastProject_content_tl.from(document.querySelectorAll('.last-item__content__text span'),{y:'100%', duration: .5, stagger: 0.09, ease: 'power3.easeOut'},"<+=.33")
+            lastProject_content_tl.from(document.querySelectorAll('.last-item__content__text span'),{y:'130%', duration: .5, stagger: 0.09, ease: 'power3.easeOut'},"<+=.33")
+
+            // a faixa amarela sobe de baixo para cima, fechando o painel
+            const faixaFecho = document.querySelector('.last-item__content__faixa');
+            if(faixaFecho)
+                lastProject_content_tl.to(faixaFecho,{ y:'0%', duration: .7, ease: 'power3.out'},"<+=.15")
 
             if(is_mobile){
 
@@ -407,16 +409,38 @@ document.addEventListener('DOMContentLoaded', () => {
             }},'<+=1.75')
             scroll_intro_tl.to(header_logo_normal,{ top:posLogoMobile, duration: 1.75, ease: 'power2.out'},'<')
 
+            // Fim da apresentação: só agora entram o botão do menu e o aviso de
+            // rolagem. Os dois nascem com d-none no HTML e é este passo da
+            // timeline que os solta — antes disso não há o que abrir nem para
+            // onde rolar, e eles apareciam por cima do preloader.
+            scroll_intro_tl.call(() => {
+                if(typeof header_btn_tl !== 'undefined' && header_btn_tl) header_btn_tl.timeScale(1).play()
+                const aviso = document.querySelector('.rolagem')
+                if(aviso) aviso.classList.remove('d-none')
+            })
+
+            // marca o instante em que os títulos começam, para o carro entrar junto
+            const entraComOsTitulos = scroll_intro_tl.duration();
+
             //anim titles intro
             document.querySelectorAll('.mod-scroll__intro__title').forEach( (elem,index) => {
                 const split = SplitText.create(elem, {type: "lines,chars", linesClass:'splitline clip-y', charsClass:'char'})
                 elem.querySelectorAll('.splitline').forEach( (el,ind) => {
-                    const posInit = (ind%2!=0) ? '-110%' : '110%';
+                    // 140% e não os 110% do tema: a caixa de recorte destas
+                    // linhas ganhou padding para não cortar o pé das letras, e
+                    // com 110% as pontas dos glifos ficavam à mostra durante o
+                    // preloader.
+                    const posInit = (ind%2!=0) ? '-140%' : '140%';
                     const delayTime = (ind==0) ? "<+=.05" : "<+=.05" ;
                     scroll_intro_tl.from(el.querySelectorAll('.char'),{y:posInit, duration: .65, stagger: 0.03, ease: 'power3.out'},delayTime)
                 } )
                 
             })
+
+            // a silhueta entra da direita para a esquerda, junto com os títulos
+            const marcaHero = document.querySelector('.mod-scroll__intro__marca');
+            if(marcaHero)
+                scroll_intro_tl.from(marcaHero,{ x:'60%', opacity:0, duration: 1.2, ease: 'power3.out'}, entraComOsTitulos)
 
             //anim paragraph intro
             document.querySelectorAll('.mod-scroll__intro__text p').forEach( elem => {

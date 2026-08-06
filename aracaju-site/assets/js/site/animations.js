@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //anima cabecera scroll
         if(document.querySelector('.mod-scroll__intro')){
-            scroll_intro_tl.progress(0).timeScale(timescale).play()       
+            scroll_intro_tl.progress(0).timeScale(timescale).play()
         }
 
         //anima cabecera proyecto

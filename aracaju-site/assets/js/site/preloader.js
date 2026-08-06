@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadComplete = () => {
 
         if(control) console.log('loadComplete');
-        
+
 
         if(setFakeNumber!='') clearInterval(setFakeNumber) 
         if(first_charge){
