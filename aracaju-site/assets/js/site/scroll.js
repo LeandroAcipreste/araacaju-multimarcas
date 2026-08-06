@@ -162,6 +162,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         }
 
+        //entrada dos termos: 01 pela esquerda, 02 pela direita, 03 pela esquerda
+        document.querySelectorAll('.mod-scroll__terms__term').forEach( (termo, i) => {
+
+            const deOndeVem = (i % 2 === 0) ? -14 : 14;
+
+            const entradaTermo_tl = gsap.timeline({paused:true})
+            entradaTermo_tl.from(termo,{ xPercent: deOndeVem, opacity: 0, duration: 1, ease: 'power3.out'})
+
+            const gatilhoTermo = {
+                animation: entradaTermo_tl,
+                trigger: termo,
+                start: is_mobile ? 'top 88%' : '0% 95%',
+                end: is_mobile ? 'bottom 55%' : '60% 45%',
+                scrub: is_mobile ? 1 : .8,
+            };
+            if(!is_mobile) gatilhoTermo.containerAnimation = scroll_tl;
+            ScrollTrigger.create(gatilhoTermo)
+
+        })
+
         //anima mod-scroll__terms
         if(document.querySelectorAll('.mod-scroll__terms').length && !is_mobile){
 

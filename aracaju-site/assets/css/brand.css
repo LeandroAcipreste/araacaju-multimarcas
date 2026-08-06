@@ -16,6 +16,9 @@
   --beige: var(--preto-2);
   --grey: #1C1C1C;
   --blue: #10141A;
+
+  /* altura da faixa amarela que fecha o painel "Quem disse que seminovo…" */
+  --faixa-fecho: 9vh;
 }
 
 /* O --blue também pintava o texto do cursor customizado, que fica em
@@ -121,10 +124,18 @@ main .last-item__content__faixa {
   bottom: 0;
   left: 0;
   z-index: 0;
-  height: 9vh;
+  height: var(--faixa-fecho);
   background: var(--amarelo);
   transform: translateY(100%);
   pointer-events: none;
+}
+
+/* No mobile o painel tem altura automática e o texto ia parar debaixo da
+   faixa. O rodapé do bloco reserva a altura dela. */
+@media (max-width: 950px) {
+  main .mod-scroll__projects .last-item__content__wrap {
+    padding-bottom: calc(var(--faixa-fecho) + 2.4rem);
+  }
 }
 
 /* Asteriscos da faixa "SEMINOVOS": são <img> de um SVG com fill=currentColor,
@@ -1178,6 +1189,10 @@ main .mod-scroll {
     -webkit-hyphens: none;
     hyphens: none;
   }
+
+  /* os termos entram deslocados na horizontal; sem o recorte esse
+     deslocamento viraria rolagem lateral da página */
+  main .mod-scroll__terms { overflow-x: clip; }
 
   /* As duas chamadas antes do rodapé, uma embaixo da outra. */
   main .mod-media--double { flex-wrap: wrap; }
