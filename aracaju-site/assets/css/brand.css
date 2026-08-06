@@ -355,6 +355,76 @@ main .mod-scroll {
   color: #E4665B;
 }
 
+/* --- quem somos -----------------------------------------------------------
+   Duas colunas em conversa: a frase de abertura grande em Editorial New à
+   esquerda, o corpo em Izmir à direita. As palavras da abertura entram por
+   baixo de uma máscara e as linhas do corpo acendem, as duas coisas presas à
+   rolagem (animations.js). */
+.quem-somos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--grid-gap);
+  align-items: start;
+}
+
+.quem-somos__lead {
+  margin: 0;
+  padding-right: 2rem;
+  font-size: var(--titulo-xl);
+  line-height: 1.12;
+  letter-spacing: -.01em;
+}
+
+/* a linha é a máscara, a palavra é o que sobe */
+.quem-somos__lead .linha-mascara {
+  overflow: clip;
+  padding-bottom: .14em;
+  margin-bottom: -.14em;
+}
+
+.quem-somos__lead .palavra {
+  display: inline-block;
+  will-change: transform;
+}
+
+.quem-somos__paragrafo {
+  margin: 0 0 1.1em;
+  max-width: 34rem;
+  opacity: .85;
+}
+
+/* O corpo tem de vir nos <p>, e não só no contêiner: as margens são em `em` e,
+   com o contêiner grande e o texto pequeno, o espaço entre parágrafos crescia
+   sozinho. A medida em `ch` acompanha o próprio corpo do texto. */
+@media (min-width: 951px) {
+  .quem-somos .quem-somos__texto,
+  .quem-somos__paragrafo {
+    font-size: 32px;
+    line-height: 1.35;
+  }
+
+  .quem-somos__paragrafo {
+    max-width: 34ch;
+    margin-bottom: .7em;
+  }
+}
+
+.quem-somos__paragrafo:last-child { margin-bottom: 0; }
+
+@media (max-width: 950px) {
+  .quem-somos {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .quem-somos__lead {
+    padding-right: 0;
+    font-size: min(var(--titulo-xl), 8.4vw);
+  }
+
+  .quem-somos__paragrafo { max-width: none; }
+}
+
 /* --- barra de busca do estoque --------------------------------------------
    Chips de marca em cima, campos embaixo, como no site original. */
 .filtros {

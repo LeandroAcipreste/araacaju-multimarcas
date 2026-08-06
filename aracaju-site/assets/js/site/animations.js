@@ -614,6 +614,52 @@ document.addEventListener('DOMContentLoaded', () => {
             
         }
 
+        //anima quem somos
+        // A abertura sobe palavra por palavra de dentro de uma máscara, e o
+        // corpo acende linha a linha logo atrás. As duas presas à rolagem, para
+        // quem sobe ver o caminho de volta.
+        document.querySelectorAll('.quem-somos').forEach( elem => {
+
+            const lead = elem.querySelector('.quem-somos__lead');
+            const corpo = elem.querySelectorAll('.quem-somos__paragrafo');
+            if(!lead) return;
+
+            const quemSomos_tl = gsap.timeline({paused:true})
+
+            // linhas e palavras: quem recorta é a linha, quem se move é a
+            // palavra. Recortando a própria palavra ela viajaria junto com a
+            // máscara e não haveria máscara nenhuma.
+            const splitLead = SplitText.create(lead, {type: 'lines,words', linesClass: 'linha-mascara', wordsClass: 'palavra'})
+            quemSomos_tl.from(splitLead.words,{
+                yPercent: 115,
+                duration: .8,
+                stagger: .06,
+                ease: 'power3.out'
+            },0)
+
+            if(corpo.length){
+                const linhas = [];
+                corpo.forEach(p => {
+                    const s = SplitText.create(p, {type: 'lines', linesClass: 'linha-corpo'})
+                    s.lines.forEach(l => linhas.push(l))
+                })
+                quemSomos_tl.from(linhas,{
+                    opacity: .12,
+                    duration: .5,
+                    stagger: .12
+                }, .35)
+            }
+
+            ScrollTrigger.create({
+                animation: quemSomos_tl,
+                trigger: elem,
+                start: 'top 82%',
+                end: 'bottom 55%',
+                scrub: is_mobile ? 1.2 : .7,
+            })
+
+        })
+
         //anima mod-title--lines
         // As linhas acendem conforme a rolagem, do quase-apagado até a tinta
         // cheia — o mesmo efeito do texto da faixa horizontal. O tema marcava
